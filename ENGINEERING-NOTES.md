@@ -113,3 +113,12 @@ That interval is **775 seconds (12 minutes 55 seconds)**. Only the receipt and
 timeline changed between the verified implementation and original delivery.
 No runtime blocker remained. Optional live evaluation and the owner's review
 before hiring submission were still outstanding.
+
+## Later owner verification — November 3, 2026
+
+After configuring an API key, Robert DeVore supplied terminal output showing a
+successful install, 21 passing offline tests, typecheck, build, three listed skills,
+and eight live routing passes on claude-sonnet-5-5. EVALUATION.md records the exact
+prompts, observed activations, warnings, and limits. The output does not identify
+the tested commit or execution time. The editing agent did not repeat paid API
+calls. This later evidence does not alter the original delivery timeline.

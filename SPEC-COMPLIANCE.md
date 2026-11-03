@@ -8,7 +8,7 @@ the core format and the optional features listed below.
 |---|---|---|---|
 | Assignment | Node.js + official Claude Sonnet SDK | cli.ts, claude.ts; configurable model | typecheck/build, CLI subprocess test |
 | Assignment | Three skills; two from registry | .agents/skills; unchanged external sources | integration test, upstream byte comparison, THIRD-PARTY.md |
-| Assignment | Newcomer welcome, exact header | welcome-me + strict final assertion | positive and negative agent tests; live unmeasured |
+| Assignment | Newcomer welcome, exact header | welcome-me + strict final assertion | positive and negative agent tests; both owner-reported live onboarding scenarios passed (EVALUATION.md) |
 | Assignment | Keep unrelated welcome instructions out of context | metadata-only catalog, activation tool | captured requests across acceptance scenarios |
 | Mandatory format | SKILL.md with YAML name and description | skills.ts validate/frontmatter | malformed/missing/duplicate-key tests |
 | Mandatory metadata | Name constraints, directory match, description limit | Unicode lowercase letters/numbers, hyphen rules, length checks | parser tests + official skills-ref |

@@ -27,4 +27,5 @@ Specification/reference tooling reviewed at agentskills/agentskills commit
 Sources: https://agentskills.io/home and https://agentskills.io/specification.
 Model default verified against https://platform.claude.com/docs/en/models/overview
 on 2026-11-03 UTC: claude-sonnet-5-5. Access depends on the caller's account;
-ANTHROPIC_MODEL overrides the default. No live request has yet been verified.
+ANTHROPIC_MODEL overrides the default. EVALUATION.md records the owner’s later
+live run: all eight scenarios passed on this model.

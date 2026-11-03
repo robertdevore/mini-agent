@@ -7,7 +7,9 @@ Implementation complete; clean-clone verification passed.
 Foundation, runtime, three skills, trace and adversarial tests.
 
 ## Known Issues
-Live model behavior remains unmeasured because no Anthropic API key was exported.
+The owner reported eight live routing passes on claude-sonnet-5-5 on November 3,
+2026. The suite does not verify full answer quality; draft review remains.
 
 ## Next Agent Notes
-Read EVALUATION.md and REVIEW.md. Use the optional live suite with your own account before hiring submission.
+Read EVALUATION.md and REVIEW.md. Inspect live changelog and documentation drafts
+against repository files and commits before hiring submission.

@@ -28,10 +28,12 @@ Its two dependencies handle the API and YAML parsing.
 Both external skills retain their upstream instructions and MIT licenses.
 wiki-changelog's required source clarification is honored; README skill emits the
 specified Markdown draft. The full documentation-project skill was rejected because it requires file writes
-and diagram rendering. Without credentials, live model output quality remains
-unmeasured; scripted outputs provide no evidence of it.
+and diagram rendering. At review time, no credentials were available for live
+evaluation. The owner later reported eight live passes; EVALUATION.md records
+those results and their limits. Full output quality still needs manual review.
 
 Before submitting this work to the hiring team, review the skill substitution,
 read-only scope, model-access choice, AI-assisted work disclosure, and time statement.
-Run the optional live suite with your account and inspect the drafts. These decisions
+The owner has since run the live suite successfully. Inspect actual changelog and
+documentation drafts as well. These decisions
 need the owner's judgment. The agent did not deploy the project or contact the hiring team.
