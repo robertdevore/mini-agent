@@ -73,3 +73,28 @@ without changing the lockfile. The checkout stayed clean. No Node 22 execution w
 performed; >=22 is the supported API baseline, not a tested version matrix.
 Formatting was subsequently normalized with ephemeral Prettier (no new dependency),
 and the final formatted revision is verified again before delivery.
+
+## Final implementation timeline
+
+- Final verified implementation commit: `2e535a87781e008246bde612b3041037f34b912a`.
+- GitHub-reported timestamp: **2026-11-03T04:53:39Z**.
+- Initial-to-final implementation commit elapsed: **728 seconds (12 minutes 8 seconds)**.
+- Recorded local start-to-final implementation commit: **738 seconds (12 minutes 18 seconds)**.
+- Human hands-on engineering time: **not measured**; this interval is automated session wall time.
+- No artificial dates, history rewrite, or baseline squash occurred.
+
+The final documentation receipt necessarily follows the implementation commit: a
+commit cannot embed its own SHA. The delivered repository HEAD and its timestamp
+are recorded in the Strata handoff; use the following to recover the complete
+initial-to-delivery interval exactly from this checkout:
+
+```bash
+git log --reverse --format='%H %cI %s'
+node --input-type=module -e 'import {execFileSync as g} from "node:child_process"; const a=Number(g("git",["show","-s","--format=%ct","ed5ac7c"])); const b=Number(g("git",["show","-s","--format=%ct","HEAD"])); console.log("Initial-to-delivery seconds:",b-a)'
+```
+
+Final formatted revision also passed a clean-checkout `npm ci`, all 21 tests,
+typecheck and build; `git status --short` was empty. The evidence receipt is
+`.loop-engineering/evidence/final/clean-clone.md`. Only this receipt and timeline
+were changed afterward. No runtime blocker remains; optional live evaluation
+and the owner's personal hiring-submission review remain explicitly outstanding.
