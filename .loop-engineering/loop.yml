@@ -1,65 +1,27 @@
-objective: ""
-checklist_file: ""
-max_iterations: 8
-max_no_progress: 2
-max_consecutive_failures: 3
-
+objective: "Verify mini-agent milestones"
+max_iterations: 1
 allowed_actions:
   - read_files
   - edit_files
   - run_tests
-  - commit_local_changes
-
 blocked_actions:
   - deploy
   - destructive_cleanup
-  - production_config_change
-
 eval_gates:
-  - id: php_tests
-    command: "cd connector-plugin && composer test"
+  - id: tests
+    command: "npm test"
     required: true
-    when_files_match:
-      - "connector-plugin/**"
-
-  - id: node_install
-    command: "pnpm install --frozen-lockfile"
-    required: true
-    when_files_match:
-      - "package.json"
-      - "pnpm-lock.yaml"
-      - "src/**"
-
-  - id: node_tests
-    command: "pnpm test"
-    required: true
-    when_files_match:
-      - "src/**"
-
   - id: typecheck
-    command: "pnpm run typecheck"
+    command: "npm run typecheck"
     required: true
-    when_files_match:
-      - "src/**"
-
   - id: build
-    command: "pnpm run build"
+    command: "npm run build"
     required: true
-    when_files_match:
-      - "src/**"
-
-  - id: diff_check
+  - id: diff
     command: "git diff --check"
     required: true
-
 commit:
   enabled: false
-  strategy: small_meaningful
   push: false
-
 memory:
   enabled: false
-  provider: strata
-  project: "Agent Notes"
-  mode: consolidate
-  retrieval_tests: true
