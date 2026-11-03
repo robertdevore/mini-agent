@@ -10,11 +10,11 @@
     },
     {
       "path": "agent/HANDOFF.md",
-      "content": "# Handoff\nBaseline pushed. Implement contract; record evidence and remaining live verification honestly.\n"
+      "content": "# Handoff\n## Current Status\nBaseline pushed.\n## Completed Phases\nPlanning.\n## Known Issues\nLive credentials absent.\n## Next Agent Notes\nFollow MASTER.md.\n"
     },
     {
       "path": "agent/DECISIONS.md",
-      "content": "# Decisions\nRead-only output drafts. Proper YAML parsing. No routing shortcuts. External skill substitution documented in MASTER.\n"
+      "content": "# Decisions\n## Confirmed\nRead-only output drafts. Proper YAML parsing. No routing shortcuts. External skill substitution documented in MASTER.\n## Open\nLive evaluation.\n## Log\nInitial contract.\n"
     },
     {
       "path": "agent/REVIEW_CHECKLIST.md",
@@ -30,27 +30,27 @@
     },
     {
       "path": "agent/phases/00-project-brief.md",
-      "content": "# project-brief\n\n## Scope\nComplete project-brief against MASTER.md.\n\n## Acceptance criteria\nApplicable requirements have behavioral verification; no unverified claims.\n\n## Verification\nRun applicable npm tests, typecheck and build through Loop.\n\n"
+      "content": "# project-brief\n\n## Goal\nDeliver verified milestone.\n\n## Out of scope\nUnrelated changes.\n\n## Read before starting\nMASTER.md\n\n## Implementation notes\nFollow the contract.\n\n## Handoff requirements\nRecord evidence.\n\n## Scope\nComplete project-brief against MASTER.md.\n\n## Acceptance criteria\n- [ ] Applicable requirements have behavioral verification; no unverified claims.\n\n## Suggested checks\nRun applicable npm tests, typecheck and build through Loop.\n\n"
     },
     {
       "path": "agent/phases/01-skill-foundation.md",
-      "content": "# skill-foundation\n\n## Scope\nComplete skill-foundation against MASTER.md.\n\n## Acceptance criteria\nApplicable requirements have behavioral verification; no unverified claims.\n\n## Verification\nRun applicable npm tests, typecheck and build through Loop.\n\n"
+      "content": "# skill-foundation\n\n## Goal\nDeliver verified milestone.\n\n## Out of scope\nUnrelated changes.\n\n## Read before starting\nMASTER.md\n\n## Implementation notes\nFollow the contract.\n\n## Handoff requirements\nRecord evidence.\n\n## Scope\nComplete skill-foundation against MASTER.md.\n\n## Acceptance criteria\n- [ ] Applicable requirements have behavioral verification; no unverified claims.\n\n## Suggested checks\nRun applicable npm tests, typecheck and build through Loop.\n\n"
     },
     {
       "path": "agent/phases/02-claude-runtime.md",
-      "content": "# claude-runtime\n\n## Scope\nComplete claude-runtime against MASTER.md.\n\n## Acceptance criteria\nApplicable requirements have behavioral verification; no unverified claims.\n\n## Verification\nRun applicable npm tests, typecheck and build through Loop.\n\n"
+      "content": "# claude-runtime\n\n## Goal\nDeliver verified milestone.\n\n## Out of scope\nUnrelated changes.\n\n## Read before starting\nMASTER.md\n\n## Implementation notes\nFollow the contract.\n\n## Handoff requirements\nRecord evidence.\n\n## Scope\nComplete claude-runtime against MASTER.md.\n\n## Acceptance criteria\n- [ ] Applicable requirements have behavioral verification; no unverified claims.\n\n## Suggested checks\nRun applicable npm tests, typecheck and build through Loop.\n\n"
     },
     {
       "path": "agent/phases/03-functional-skills.md",
-      "content": "# functional-skills\n\n## Scope\nComplete functional-skills against MASTER.md.\n\n## Acceptance criteria\nApplicable requirements have behavioral verification; no unverified claims.\n\n## Verification\nRun applicable npm tests, typecheck and build through Loop.\n\n"
+      "content": "# functional-skills\n\n## Goal\nDeliver verified milestone.\n\n## Out of scope\nUnrelated changes.\n\n## Read before starting\nMASTER.md\n\n## Implementation notes\nFollow the contract.\n\n## Handoff requirements\nRecord evidence.\n\n## Scope\nComplete functional-skills against MASTER.md.\n\n## Acceptance criteria\n- [ ] Applicable requirements have behavioral verification; no unverified claims.\n\n## Suggested checks\nRun applicable npm tests, typecheck and build through Loop.\n\n"
     },
     {
       "path": "agent/phases/04-tracing-and-adversarial-tests.md",
-      "content": "# tracing-and-adversarial-tests\n\n## Scope\nComplete tracing-and-adversarial-tests against MASTER.md.\n\n## Acceptance criteria\nApplicable requirements have behavioral verification; no unverified claims.\n\n## Verification\nRun applicable npm tests, typecheck and build through Loop.\n\n"
+      "content": "# tracing-and-adversarial-tests\n\n## Goal\nDeliver verified milestone.\n\n## Out of scope\nUnrelated changes.\n\n## Read before starting\nMASTER.md\n\n## Implementation notes\nFollow the contract.\n\n## Handoff requirements\nRecord evidence.\n\n## Scope\nComplete tracing-and-adversarial-tests against MASTER.md.\n\n## Acceptance criteria\n- [ ] Applicable requirements have behavioral verification; no unverified claims.\n\n## Suggested checks\nRun applicable npm tests, typecheck and build through Loop.\n\n"
     },
     {
       "path": "agent/phases/05-final-verification.md",
-      "content": "# final-verification\n\n## Scope\nComplete final-verification against MASTER.md.\n\n## Acceptance criteria\nApplicable requirements have behavioral verification; no unverified claims.\n\n## Verification\nRun applicable npm tests, typecheck and build through Loop.\n\n"
+      "content": "# final-verification\n\n## Goal\nDeliver verified milestone.\n\n## Out of scope\nUnrelated changes.\n\n## Read before starting\nMASTER.md\n\n## Implementation notes\nFollow the contract.\n\n## Handoff requirements\nRecord evidence.\n\n## Scope\nComplete final-verification against MASTER.md.\n\n## Acceptance criteria\n- [ ] Applicable requirements have behavioral verification; no unverified claims.\n\n## Suggested checks\nRun applicable npm tests, typecheck and build through Loop.\n\n"
     }
   ]
 }
