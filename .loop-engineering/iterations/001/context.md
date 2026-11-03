@@ -1,7 +1,12 @@
 # Context
 
 - objective: Verify mini-agent milestones
-- git_head: 2d1cf3c
+- git_head: 9d75624
 - changed_files:
-  - src/agent.ts
+  - ENGINEERING-NOTES.md
+  - README.md
+  - SPEC-COMPLIANCE.md
+  - agent/HANDOFF.md
+  - agent/TODO.md
   - src/skills.ts
+  - tests/skills.test.ts

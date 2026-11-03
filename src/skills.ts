@@ -1,6 +1,6 @@
 import { open, readdir, realpath, access } from 'node:fs/promises';
 import path from 'node:path';
-import { parseDocument } from 'yaml';
+import { parseDocument, isMap, isScalar } from 'yaml';
 export type Skill = { name: string; description: string; directory: string; metadata: Record<string, unknown> };
 export type Trace = (event: string) => void;
 export const quiet: Trace = () => {};
@@ -57,6 +57,10 @@ export function validate(yaml: string, directory: string): Record<string, unknow
   for (const key of ['license','compatibility','allowed-tools']) if (key in m && typeof m[key] !== 'string') throw new Error(`Invalid ${key}`);
   if (typeof m.compatibility === 'string' && (!m.compatibility.trim() || [...m.compatibility].length > 500)) throw new Error('Invalid compatibility');
   if ('metadata' in m && (!m.metadata || typeof m.metadata !== 'object' || Array.isArray(m.metadata) || Object.values(m.metadata).some(v => typeof v !== 'string'))) throw new Error('Invalid metadata map');
+  if ('metadata' in m) {
+    const mapping = doc.get('metadata', true);
+    if (!isMap(mapping) || mapping.items.some(pair => !isScalar(pair.key) || typeof pair.key.value !== 'string')) throw new Error('Metadata keys must be strings');
+  }
   return m;
 }
 export async function projectRoot(start = process.cwd()): Promise<string> {

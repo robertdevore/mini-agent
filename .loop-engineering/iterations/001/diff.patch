@@ -1,154 +1,482 @@
 diff --git a/.loop-engineering/iterations/001/context.md b/.loop-engineering/iterations/001/context.md
-index 8413950..8907a4d 100644
+index 8907a4d..cbf0d6c 100644
 --- a/.loop-engineering/iterations/001/context.md
 +++ b/.loop-engineering/iterations/001/context.md
-@@ -1,11 +1,7 @@
+@@ -1,7 +1,12 @@
  # Context
  
  - objective: Verify mini-agent milestones
--- git_head: a718866
-+- git_head: 2d1cf3c
+-- git_head: 2d1cf3c
++- git_head: 9d75624
  - changed_files:
--  - .gitignore
--  - .loop-engineering/SUMMARY.md
--  - .loop-engineering/iterations/001/context.md
--  - .loop-engineering/iterations/001/diff.patch
--  - .loop-engineering/iterations/001/verdict.yml
--  - .loop-engineering/ledger.tsv
-+  - src/agent.ts
-+  - src/skills.ts
+-  - src/agent.ts
++  - ENGINEERING-NOTES.md
++  - README.md
++  - SPEC-COMPLIANCE.md
++  - agent/HANDOFF.md
++  - agent/TODO.md
+   - src/skills.ts
++  - tests/skills.test.ts
 diff --git a/.loop-engineering/iterations/001/diff.patch b/.loop-engineering/iterations/001/diff.patch
-index 198d9cd..e69de29 100644
+index 2f4a729..e69de29 100644
 --- a/.loop-engineering/iterations/001/diff.patch
 +++ b/.loop-engineering/iterations/001/diff.patch
-@@ -1,83 +0,0 @@
--diff --git a/.gitignore b/.gitignore
--index d8421de..53647df 100644
----- a/.gitignore
--+++ b/.gitignore
--@@ -5,3 +5,5 @@ dist/
-- !.env.example
-- *.log
-- .DS_Store
--+
--+!.loop-engineering/**/*.log
--diff --git a/.loop-engineering/SUMMARY.md b/.loop-engineering/SUMMARY.md
--index 8ec2f96..c069346 100644
----- a/.loop-engineering/SUMMARY.md
--+++ b/.loop-engineering/SUMMARY.md
--@@ -2,17 +2,17 @@
-- 
-- ## Verdict
-- 
---success
--+failed
-- 
-- ## Completed
-- 
---- configured loop run completed through iteration 1
--+- configured loop run completed through iteration 2
-- 
-- ## Verification
-- 
---- passed: tests, typecheck, build, diff
--+- passed: tests, typecheck, build
-- - blocked: none
---- failed: none
--+- failed: diff
-- 
-- ## Commits
-- 
--@@ -28,4 +28,4 @@ success
-- 
-- ## Next Start
-- 
---- success: required gates passed
--+- required gate failed
+@@ -1,154 +0,0 @@
 -diff --git a/.loop-engineering/iterations/001/context.md b/.loop-engineering/iterations/001/context.md
--index 23760b3..8413950 100644
+-index 8413950..8907a4d 100644
 ---- a/.loop-engineering/iterations/001/context.md
 -+++ b/.loop-engineering/iterations/001/context.md
--@@ -1,6 +1,11 @@
+-@@ -1,11 +1,7 @@
 - # Context
 - 
 - - objective: Verify mini-agent milestones
---- git_head: 5bc02b5
--+- git_head: a718866
+--- git_head: a718866
+-+- git_head: 2d1cf3c
 - - changed_files:
---  - none
--+  - .gitignore
--+  - .loop-engineering/SUMMARY.md
--+  - .loop-engineering/iterations/001/context.md
--+  - .loop-engineering/iterations/001/diff.patch
--+  - .loop-engineering/iterations/001/verdict.yml
--+  - .loop-engineering/ledger.tsv
--diff --git a/.loop-engineering/iterations/001/verdict.yml b/.loop-engineering/iterations/001/verdict.yml
--index ebbbe06..5eace62 100644
----- a/.loop-engineering/iterations/001/verdict.yml
--+++ b/.loop-engineering/iterations/001/verdict.yml
--@@ -1,6 +1,6 @@
-- iteration: 1
---verdict: success
---progress: 1
---required_failures: 0
--+verdict: failed
--+progress: 0
--+required_failures: 1
-- external_blockers: 0
---stop_reason: "success: required gates passed"
--+stop_reason: "required gate failed"
--diff --git a/.loop-engineering/ledger.tsv b/.loop-engineering/ledger.tsv
--index a287f34..882f38f 100644
----- a/.loop-engineering/ledger.tsv
--+++ b/.loop-engineering/ledger.tsv
--@@ -1,2 +1,3 @@
-- iteration	action	verdict	progress	evidence	justification
-- 001	configured-gates	success	1	iterations/001/eval.log	success: required gates passed
--+001	configured-gates	failed	0	iterations/001/eval.log	required gate failed
-diff --git a/src/agent.ts b/src/agent.ts
-index cde1cd7..97ad86d 100644
---- a/src/agent.ts
-+++ b/src/agent.ts
-@@ -77,9 +77,10 @@ export async function runAgent(options: { root: string; prompt: string; model: M
-           }
-           trace(`READ ${call.name}`);
-         }
--      } catch {
-+      } catch (error) {
-         // Do not reflect untrusted arguments, filesystem paths or provider payloads.
--        content = 'Tool rejected: invalid arguments, unavailable resource, or permission/size boundary. Use the documented tool schema and available paths.';
-+        const code = (error as NodeJS.ErrnoException).code;
-+        content = code === 'ENOENT' ? 'Resource not found. Check the relative path against the activated skill or repository listing.' : 'Tool rejected: invalid arguments, unknown/unactivated skill, or permission/size boundary. Use the documented tool schema and available paths.';
-         is_error = true; trace('ERROR tool rejected');
-       }
-       results.push({type:'tool_result',tool_use_id:call.id,content,is_error});
+--  - .gitignore
+--  - .loop-engineering/SUMMARY.md
+--  - .loop-engineering/iterations/001/context.md
+--  - .loop-engineering/iterations/001/diff.patch
+--  - .loop-engineering/iterations/001/verdict.yml
+--  - .loop-engineering/ledger.tsv
+-+  - src/agent.ts
+-+  - src/skills.ts
+-diff --git a/.loop-engineering/iterations/001/diff.patch b/.loop-engineering/iterations/001/diff.patch
+-index 198d9cd..e69de29 100644
+---- a/.loop-engineering/iterations/001/diff.patch
+-+++ b/.loop-engineering/iterations/001/diff.patch
+-@@ -1,83 +0,0 @@
+--diff --git a/.gitignore b/.gitignore
+--index d8421de..53647df 100644
+----- a/.gitignore
+--+++ b/.gitignore
+--@@ -5,3 +5,5 @@ dist/
+-- !.env.example
+-- *.log
+-- .DS_Store
+--+
+--+!.loop-engineering/**/*.log
+--diff --git a/.loop-engineering/SUMMARY.md b/.loop-engineering/SUMMARY.md
+--index 8ec2f96..c069346 100644
+----- a/.loop-engineering/SUMMARY.md
+--+++ b/.loop-engineering/SUMMARY.md
+--@@ -2,17 +2,17 @@
+-- 
+-- ## Verdict
+-- 
+---success
+--+failed
+-- 
+-- ## Completed
+-- 
+---- configured loop run completed through iteration 1
+--+- configured loop run completed through iteration 2
+-- 
+-- ## Verification
+-- 
+---- passed: tests, typecheck, build, diff
+--+- passed: tests, typecheck, build
+-- - blocked: none
+---- failed: none
+--+- failed: diff
+-- 
+-- ## Commits
+-- 
+--@@ -28,4 +28,4 @@ success
+-- 
+-- ## Next Start
+-- 
+---- success: required gates passed
+--+- required gate failed
+--diff --git a/.loop-engineering/iterations/001/context.md b/.loop-engineering/iterations/001/context.md
+--index 23760b3..8413950 100644
+----- a/.loop-engineering/iterations/001/context.md
+--+++ b/.loop-engineering/iterations/001/context.md
+--@@ -1,6 +1,11 @@
+-- # Context
+-- 
+-- - objective: Verify mini-agent milestones
+---- git_head: 5bc02b5
+--+- git_head: a718866
+-- - changed_files:
+---  - none
+--+  - .gitignore
+--+  - .loop-engineering/SUMMARY.md
+--+  - .loop-engineering/iterations/001/context.md
+--+  - .loop-engineering/iterations/001/diff.patch
+--+  - .loop-engineering/iterations/001/verdict.yml
+--+  - .loop-engineering/ledger.tsv
+--diff --git a/.loop-engineering/iterations/001/verdict.yml b/.loop-engineering/iterations/001/verdict.yml
+--index ebbbe06..5eace62 100644
+----- a/.loop-engineering/iterations/001/verdict.yml
+--+++ b/.loop-engineering/iterations/001/verdict.yml
+--@@ -1,6 +1,6 @@
+-- iteration: 1
+---verdict: success
+---progress: 1
+---required_failures: 0
+--+verdict: failed
+--+progress: 0
+--+required_failures: 1
+-- external_blockers: 0
+---stop_reason: "success: required gates passed"
+--+stop_reason: "required gate failed"
+--diff --git a/.loop-engineering/ledger.tsv b/.loop-engineering/ledger.tsv
+--index a287f34..882f38f 100644
+----- a/.loop-engineering/ledger.tsv
+--+++ b/.loop-engineering/ledger.tsv
+--@@ -1,2 +1,3 @@
+-- iteration	action	verdict	progress	evidence	justification
+-- 001	configured-gates	success	1	iterations/001/eval.log	success: required gates passed
+--+001	configured-gates	failed	0	iterations/001/eval.log	required gate failed
+-diff --git a/src/agent.ts b/src/agent.ts
+-index cde1cd7..97ad86d 100644
+---- a/src/agent.ts
+-+++ b/src/agent.ts
+-@@ -77,9 +77,10 @@ export async function runAgent(options: { root: string; prompt: string; model: M
+-           }
+-           trace(`READ ${call.name}`);
+-         }
+--      } catch {
+-+      } catch (error) {
+-         // Do not reflect untrusted arguments, filesystem paths or provider payloads.
+--        content = 'Tool rejected: invalid arguments, unavailable resource, or permission/size boundary. Use the documented tool schema and available paths.';
+-+        const code = (error as NodeJS.ErrnoException).code;
+-+        content = code === 'ENOENT' ? 'Resource not found. Check the relative path against the activated skill or repository listing.' : 'Tool rejected: invalid arguments, unknown/unactivated skill, or permission/size boundary. Use the documented tool schema and available paths.';
+-         is_error = true; trace('ERROR tool rejected');
+-       }
+-       results.push({type:'tool_result',tool_use_id:call.id,content,is_error});
+-diff --git a/src/skills.ts b/src/skills.ts
+-index 6c5cd06..64ccca2 100644
+---- a/src/skills.ts
+-+++ b/src/skills.ts
+-@@ -1,4 +1,4 @@
+--import { open, readdir, realpath, stat, access } from 'node:fs/promises';
+-+import { open, readdir, realpath, access } from 'node:fs/promises';
+- import path from 'node:path';
+- import { parseDocument } from 'yaml';
+- export type Skill = { name: string; description: string; directory: string; metadata: Record<string, unknown> };
+-@@ -52,7 +52,7 @@ export function validate(yaml: string, directory: string): Record<string, unknow
+-   const m = data as Record<string, unknown>;
+-   const fields = new Set(['name','description','license','compatibility','metadata','allowed-tools']);
+-   if (Object.keys(m).some(k => !fields.has(k))) throw new Error('Unknown metadata field');
+--  if (typeof m.name !== 'string' || [...m.name].length > 64 || !/^[\p{Ll}\p{Lo}\p{Nd}]+(?:-[\p{Ll}\p{Lo}\p{Nd}]+)*$/u.test(m.name) || m.name !== directory) throw new Error('Invalid skill name or directory mismatch');
+-+  if (typeof m.name !== 'string' || [...m.name].length > 64 || m.name !== m.name.toLowerCase() || !/^[\p{L}\p{N}]+(?:-[\p{L}\p{N}]+)*$/u.test(m.name) || m.name.normalize('NFKC') !== directory.normalize('NFKC')) throw new Error('Invalid skill name or directory mismatch');
+-   if (typeof m.description !== 'string' || !m.description.trim() || [...m.description].length > 1024) throw new Error('Invalid description');
+-   for (const key of ['license','compatibility','allowed-tools']) if (key in m && typeof m[key] !== 'string') throw new Error(`Invalid ${key}`);
+-   if (typeof m.compatibility === 'string' && (!m.compatibility.trim() || [...m.compatibility].length > 500)) throw new Error('Invalid compatibility');
+-@@ -86,7 +86,9 @@ export async function discover(root: string, trace: Trace = quiet): Promise<Map<
+- }
+- export async function activate(skill: Skill): Promise<string> {
+-   const text = await readBounded(await safePath(skill.directory, 'SKILL.md'));
+--  const metadata = validate(await frontmatter(await safePath(skill.directory,'SKILL.md')), skill.name);
+-+  const header = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/.exec(text);
+-+  if (!header) throw new Error('Missing YAML frontmatter');
+-+  const metadata = validate(header[1]!, skill.name);
+-   if (JSON.stringify(metadata) !== JSON.stringify(skill.metadata)) throw new Error('Skill metadata changed; restart discovery');
+-   return text;
+- }
+diff --git a/ENGINEERING-NOTES.md b/ENGINEERING-NOTES.md
+index 8e32441..da6fd66 100644
+--- a/ENGINEERING-NOTES.md
++++ b/ENGINEERING-NOTES.md
+@@ -15,3 +15,50 @@ Commits are made manually to retain meaningful messages without harness auto-ame
+ Challenges: installed gh predates --source; repository created using authenticated
+ GitHub REST API then pushed normally. PackWrite launcher needed explicit KUJO path.
+ Live Anthropic credentials absent at initial inspection; offline tests cannot prove routing.
++
++## Verification and workflow details
++
++PackWrite's initial manifest attempts failed on output-rooted paths and required
++handoff/phase headings. Those failures are visible in the early planning commits;
++no implementation began until validation passed. Final planning validation passed
++with nine advisory warnings about concise phases/prompts. The agent-authored offline
++manifest is intentional and not evidence of a separate provider's reasoning.
++
++Milestones are real commits: skill foundation, Claude runtime, three skills,
++then adversarial/context tests. Loop ran actual npm tests/typecheck/build/diff gates.
++Its harness reuses iteration 001 on each invocation; successful milestone evidence
++is preserved under .loop-engineering/evidence/runtime, skills, and adversarial.
++The runtime snapshot includes the foundation tests. Logs are committed explicitly.
++A gate failure on whitespace inside saved patch evidence was resolved with a scoped
++Git attribute for patch files; application whitespace checks remain enabled.
++
++Official validator: agentskills/agentskills at
++69ef37e9424c0a7ea9dd2293b559e43ec8176379. Initial Python 3.10 install failed because
++skills-ref requires >=3.11; reran in a Python 3.11 virtual environment successfully.
++This Python environment is upstream validation tooling only, not project runtime.
++Commands (after installing skills-ref from the pinned upstream checkout):
++
++```bash
++skills-ref validate .agents/skills/welcome-me
++skills-ref validate .agents/skills/wiki-changelog
++skills-ref validate .agents/skills/documentation-readme
++```
++
++All three passed. Both external SKILL.md files were compared byte-for-byte against
++the pinned upstream checkout and match. The documentation-readme registry URL
++returned HTTP 200 and contains the named skill. Raw upstream licenses are bundled.
++
++21 offline tests pass. The live command actually ran and skipped for absent
++ANTHROPIC_API_KEY. No provider credentials were searched for in private files.
++The separate skeptical review is in REVIEW.md; it is not a human endorsement.
++
++## Time accounting
++
++This is an AI-assisted engineering session, not measured human labor. Wall-clock
++start was recorded explicitly above. No human hands-on stopwatch exists; human
++hands-on time is therefore **not measured**, not equated with commit elapsed time.
++Work proceeded continuously, with dependency installs, Git/network operations,
++validator setup, and tests overlapping some editing. No substantial intentional
++pause occurred. Wait time was not separately instrumented and cannot truthfully be
++subtracted to claim an exact active-work duration. Final commit interval is recorded
++below after verification, without rewriting commit dates.
+diff --git a/README.md b/README.md
+index 1c161cd..b264ec3 100644
+--- a/README.md
++++ b/README.md
+@@ -1,3 +1,116 @@
+ # Mini Agent
+ 
+-A focused Claude-powered CLI implementing Agent Skills for the Command Code assignment.
++A small, read-only Node.js CLI powered by Claude Sonnet. It discovers Agent Skills,
++lets Claude choose relevant workflows through tool calls, and loads instructions
++only after activation. Built for the Command Code engineering assignment.
++
++## Run
++
++Requires Node.js 22+ and Git. No global installs or API key are needed for tests
++or skill listing. From this checkout:
++
++```bash
++npm ci
++export ANTHROPIC_API_KEY='your-key'
++npm run agent -- "I'm new to this project"
++```
++
++The single CLI command is `npm run agent -- "your prompt"`. For output with no npm
++lifecycle banner, use `npm run --silent agent -- "your prompt"` or build once and
++run `node dist/src/cli.js "your prompt"`. The CLI itself emits only the answer on
++stdout. Never paste real credentials into committed files.
++
++Three example prompts:
++
++```bash
++npm run agent -- --trace "First day here. Where should I start?"
++npm run agent -- "Generate release notes from recent commits. Our source repository is https://github.com/robertdevore/mini-agent."
++npm run agent -- "Document this project's architecture in a README draft."
++```
++
++`npm run agent -- --list-skills` lists metadata offline. `--help` explains options.
++Try `"What's the weather?"` with `--trace` to inspect exclusion; this agent has no
++weather tool. The model chooses workflows; there are no keyword routing rules.
++
++## Configuration
++
++| Variable | Default | Purpose |
++|---|---|---|
++| `ANTHROPIC_API_KEY` | none | Required only for model requests |
++| `ANTHROPIC_MODEL` | `claude-sonnet-5-5` | Model override; account must have access |
++| `MINI_AGENT_MAX_STEPS` | `12` | Maximum model turns, integer 1–30 |
++
++Environment files are **not** loaded automatically. Export variables in your shell
++or use Node's explicit `--env-file=.env` when running the compiled CLI. Requests
++have a 60-second timeout and one SDK retry; output is bounded to 4096 tokens per turn.
++The agent rejects truncated responses and step exhaustion instead of printing a
++partial answer as success.
++
++## Skills and disclosure
++
++- `welcome-me`: actual repository onboarding; exact first line must be
++  `> Welcome to our agent!`. A runtime assertion rejects a noncompliant answer;
++  there is no silent header repair.
++- `wiki-changelog`: Microsoft's original skill, backed by the latest 20 real
++  commits and a sanitized origin URL. Its source-context question is preserved.
++  Supply your repository URL or say it is local-only in the prompt.
++- `documentation-readme`: UC Davis's original skill, producing a README draft
++  from inspected project files. This replaces its much larger documentation
++  suite. See [provenance, licenses, and rationale](THIRD-PARTY.md).
++
++The root is the nearest ancestor of the working directory containing `.git` or
++`package.json`. Only immediate child directories of `.skills/`, then
++`.agents/skills/`, are scanned. `.skills/` wins duplicate names and `--trace`
++reports shadowing. All discovered skill metadata is validated, even shadowed
++entries; malformed skills stop execution instead of silently loading bad content.
++Symlinked skill directories are not discovered. There is no home-directory search.
++
++Discovery reads only YAML frontmatter (up to 16 KiB). Only names and descriptions
++enter the first model request. `activate_skill` reads the selected full file;
++`read_skill_resource` reads individual files only inside an activated skill.
++Each file is limited to 64 KiB. No reference directories are loaded in bulk.
++
++Trace lines on stderr originate from actual runtime events: `DISCOVER`, `CATALOG`,
++`SELECT`, `LOAD`, `RESOURCE`, `READ`, `VERIFY`, `ERROR`, and `DONE`. No prompts,
++API keys, raw tool arguments, or model reasoning are logged. For unrelated requests,
++`SELECT none` and `LOAD 0 skill instruction files` appear only when none activated.
++
++## Architecture and permissions
++
++`src/skills.ts` handles discovery, YAML validation, activation, and bounded reads.
++`src/agent.ts` owns the bounded tool loop and conversation ordering.
++`src/repository.ts` provides fixed read-only Git commands and tracked-file reads.
++`src/claude.ts` wraps the official Anthropic SDK; `src/cli.ts` handles CLI I/O.
++
++Repository inspection requires an activated skill. The file list is limited to
++500 tracked files; hidden paths, skill bodies, workflow packs, build/dependency
++folders, and obvious credential filenames are excluded. Realpath checks reject
++traversal and symlink escapes. Tool arguments cannot become shell commands.
++`allowed-tools` metadata is validated but does not grant capabilities.
++
++This is not a sandbox or an automatic secret scanner. Work in a trusted checkout
++that is not being modified concurrently. Tracked source and commit messages can
++contain sensitive content: review the repository before sending it to a model.
++Only the Anthropic SDK contacts a network service; no model tool can execute a
++shell, install dependencies, fetch URLs, or change files. Documentation is printed
++for review, never written automatically. stdout/stderr control follows conventional
++exit codes: 0 success, 1 runtime/configuration failure, 2 CLI usage error.
++
++## Verify
++
++```bash
++npm test
++npm run typecheck
++npm run build
++npm run test:live  # optional; incurs API usage when a key is exported
++```
++
++Offline tests inject scripted model responses and inspect actual request contexts.
++They prove host behavior, **not** live routing accuracy. See [EVALUATION.md](EVALUATION.md)
++for measured results, [SPEC-COMPLIANCE.md](SPEC-COMPLIANCE.md) for the contract,
++[REVIEW.md](REVIEW.md) for the separate skeptical review, and
++[ENGINEERING-NOTES.md](ENGINEERING-NOTES.md) for time, challenges, and Git evidence.
++
++Runtime dependencies: official `@anthropic-ai/sdk` and `yaml`; development uses
++TypeScript, `tsx`, and Node types. MIT license; upstream skill notices remain
++bundled. Maintainer: [Robert DeVore](https://github.com/robertdevore).
+diff --git a/SPEC-COMPLIANCE.md b/SPEC-COMPLIANCE.md
+index caba692..e4fbe97 100644
+--- a/SPEC-COMPLIANCE.md
++++ b/SPEC-COMPLIANCE.md
+@@ -1,15 +1,30 @@
+-# Compliance contract
++# Compliance matrix
+ 
+-| Category | Contract | Verification |
+-|---|---|---|
+-| Assignment | Node/TypeScript, official Claude SDK, configurable Sonnet | build, CLI smoke |
+-| Assignment | three skills, two authentic registry sources | provenance + official validation |
+-| Assignment | welcome exact first line | runtime assertion + positive/negative tests |
+-| Assignment | unrelated body exclusion | captured model request assertions |
+-| Spec mandatory | directory SKILL.md, YAML name/description, naming limits | parser tests + skills-ref |
+-| Spec optional | license, compatibility, metadata, allowed-tools | validation tests; permissions remain host-owned |
+-| Disclosure | catalog then activation then resources | fake client context assertions |
+-| Engineering choice | .skills precedence; nearest root; invalid skills fail | filesystem tests |
+-| Engineering choice | read-only tracked repository access, bounded loop | security/error tests |
+-| Excluded optional | script execution, automatic writes, arbitrary shell/network | no exposed tools |
+-| Live evaluation | real model selection, distinct from scripted tests | optional live suite and report |
++Reference: https://agentskills.io/specification, reviewed 2026-11-03 UTC.
++Reference implementation pinned in THIRD-PARTY.md. This is a focused skill client,
++not a promise to implement every optional client feature.
++
++| Category | Requirement/choice | Implementation | Verification |
++|---|---|---|---|
++| Assignment | Node.js + official Claude Sonnet SDK | cli.ts, claude.ts; configurable model | typecheck/build, CLI subprocess test |
++| Assignment | Three skills; two from registry | .agents/skills; unchanged external sources | integration test, upstream byte comparison, THIRD-PARTY.md |
++| Assignment | Newcomer welcome, exact header | welcome-me + strict final assertion | positive and negative agent tests; live unmeasured |
++| Assignment | Unrelated welcome body excluded | metadata-only catalog, activation tool | captured request matrix |
++| Mandatory format | SKILL.md with YAML name and description | skills.ts validate/frontmatter | malformed/missing/duplicate-key tests |
++| Mandatory metadata | Name constraints, directory match, description limit | Unicode lowercase letters/numbers, hyphen rules, length checks | parser tests + official skills-ref |
++| Optional metadata | license, compatibility, metadata, allowed-tools | type/length validation; no permission expansion | metadata tests |
++| Disclosure | Metadata → selected instructions → needed resources | discover/activate/read_skill_resource | actual next-request and resource-read assertions |
++| Optional resources | Relative reads in activated skill only | canonical path checks, 64 KiB cap | traversal, symlink, missing/large resource tests |
++| Client choice | .skills before .agents/skills, nearest marked root | projectRoot/discover | filesystem integration test |
++| Client choice | Invalid metadata fails; duplicates diagnosed | discover + SHADOW event | deterministic precedence test |
++| Client choice | Read-only real project evidence | fixed git log/remote/ls-files and bounded reads | actual repository/history integration tests |
++| Client choice | Bounded official tool loop; fail closed | agent.ts; 12 turns, 16 calls per batch | batching, malformed/unknown tools, API/stop/step tests |
++| Client choice | stderr trace, stdout answer | cli.ts + actual runtime events | trace assertions, CLI tests |
++| Excluded optional | Script execution, writes, broad filesystem search | no exposed tools | tool inventory and negative tests |
++| Delivery | Plan, Loop, review, timeline, clean install | agent/, .loop-engineering/, notes | recorded gates + clean-clone verification |
++
++Compatibility metadata is descriptive only. The runtime does not auto-install a
++skill's dependencies or execute bundled scripts. `allowed-tools` is experimental
++metadata, not a security boundary. Suggested 500-line skill-body guidance is not
++misrepresented as a mandatory format rule. Host byte/turn/file caps are deliberate
++engineering limits, not requirements imposed by the specification.
+diff --git a/agent/HANDOFF.md b/agent/HANDOFF.md
+index 5e2664c..b4af474 100644
+--- a/agent/HANDOFF.md
++++ b/agent/HANDOFF.md
+@@ -1,9 +1,13 @@
+ # Handoff
++
+ ## Current Status
+-Baseline pushed.
++Implementation complete; final clean-clone verification underway.
++
+ ## Completed Phases
+-Planning.
++Foundation, runtime, three skills, trace and adversarial tests.
++
+ ## Known Issues
+-Live credentials absent.
++Live model behavior not measured: no exported Anthropic credentials.
++
+ ## Next Agent Notes
+-Follow MASTER.md.
++Read EVALUATION.md and REVIEW.md. Use the optional live suite with your own account before hiring submission.
+diff --git a/agent/TODO.md b/agent/TODO.md
+index 6622c18..4edc6c0 100644
+--- a/agent/TODO.md
++++ b/agent/TODO.md
+@@ -1,7 +1,7 @@
+ # Milestones
+-- [ ] [project-brief](phases/00-project-brief.md)
+-- [ ] [skill-foundation](phases/01-skill-foundation.md)
+-- [ ] [claude-runtime](phases/02-claude-runtime.md)
+-- [ ] [functional-skills](phases/03-functional-skills.md)
+-- [ ] [tracing-and-adversarial-tests](phases/04-tracing-and-adversarial-tests.md)
+-- [ ] [final-verification](phases/05-final-verification.md)
++- [x] [project-brief](phases/00-project-brief.md)
++- [x] [skill-foundation](phases/01-skill-foundation.md)
++- [x] [claude-runtime](phases/02-claude-runtime.md)
++- [x] [functional-skills](phases/03-functional-skills.md)
++- [x] [tracing-and-adversarial-tests](phases/04-tracing-and-adversarial-tests.md)
++- [x] [final-verification](phases/05-final-verification.md)
 diff --git a/src/skills.ts b/src/skills.ts
-index 6c5cd06..64ccca2 100644
+index 64ccca2..62a6a4e 100644
 --- a/src/skills.ts
 +++ b/src/skills.ts
-@@ -1,4 +1,4 @@
--import { open, readdir, realpath, stat, access } from 'node:fs/promises';
-+import { open, readdir, realpath, access } from 'node:fs/promises';
+@@ -1,6 +1,6 @@
+ import { open, readdir, realpath, access } from 'node:fs/promises';
  import path from 'node:path';
- import { parseDocument } from 'yaml';
+-import { parseDocument } from 'yaml';
++import { parseDocument, isMap, isScalar } from 'yaml';
  export type Skill = { name: string; description: string; directory: string; metadata: Record<string, unknown> };
-@@ -52,7 +52,7 @@ export function validate(yaml: string, directory: string): Record<string, unknow
-   const m = data as Record<string, unknown>;
-   const fields = new Set(['name','description','license','compatibility','metadata','allowed-tools']);
-   if (Object.keys(m).some(k => !fields.has(k))) throw new Error('Unknown metadata field');
--  if (typeof m.name !== 'string' || [...m.name].length > 64 || !/^[\p{Ll}\p{Lo}\p{Nd}]+(?:-[\p{Ll}\p{Lo}\p{Nd}]+)*$/u.test(m.name) || m.name !== directory) throw new Error('Invalid skill name or directory mismatch');
-+  if (typeof m.name !== 'string' || [...m.name].length > 64 || m.name !== m.name.toLowerCase() || !/^[\p{L}\p{N}]+(?:-[\p{L}\p{N}]+)*$/u.test(m.name) || m.name.normalize('NFKC') !== directory.normalize('NFKC')) throw new Error('Invalid skill name or directory mismatch');
-   if (typeof m.description !== 'string' || !m.description.trim() || [...m.description].length > 1024) throw new Error('Invalid description');
+ export type Trace = (event: string) => void;
+ export const quiet: Trace = () => {};
+@@ -57,6 +57,10 @@ export function validate(yaml: string, directory: string): Record<string, unknow
    for (const key of ['license','compatibility','allowed-tools']) if (key in m && typeof m[key] !== 'string') throw new Error(`Invalid ${key}`);
    if (typeof m.compatibility === 'string' && (!m.compatibility.trim() || [...m.compatibility].length > 500)) throw new Error('Invalid compatibility');
-@@ -86,7 +86,9 @@ export async function discover(root: string, trace: Trace = quiet): Promise<Map<
+   if ('metadata' in m && (!m.metadata || typeof m.metadata !== 'object' || Array.isArray(m.metadata) || Object.values(m.metadata).some(v => typeof v !== 'string'))) throw new Error('Invalid metadata map');
++  if ('metadata' in m) {
++    const mapping = doc.get('metadata', true);
++    if (!isMap(mapping) || mapping.items.some(pair => !isScalar(pair.key) || typeof pair.key.value !== 'string')) throw new Error('Metadata keys must be strings');
++  }
+   return m;
  }
- export async function activate(skill: Skill): Promise<string> {
-   const text = await readBounded(await safePath(skill.directory, 'SKILL.md'));
--  const metadata = validate(await frontmatter(await safePath(skill.directory,'SKILL.md')), skill.name);
-+  const header = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/.exec(text);
-+  if (!header) throw new Error('Missing YAML frontmatter');
-+  const metadata = validate(header[1]!, skill.name);
-   if (JSON.stringify(metadata) !== JSON.stringify(skill.metadata)) throw new Error('Skill metadata changed; restart discovery');
-   return text;
- }
+ export async function projectRoot(start = process.cwd()): Promise<string> {
+diff --git a/tests/skills.test.ts b/tests/skills.test.ts
+index c78c0c9..53117c8 100644
+--- a/tests/skills.test.ts
++++ b/tests/skills.test.ts
+@@ -5,6 +5,10 @@ import { tmpdir } from 'node:os';
+ import path from 'node:path';
+ import { validate, discover, safePath, frontmatter, projectRoot } from '../src/skills.js';
+ test('metadata requirements and optional field constraints', () => {
++  assert.equal(validate('name: 中文\ndescription: useful', '中文').name,'中文');
++  assert.throws(()=>validate('name: demo\ndescription: x\nmetadata: {3: value}', 'demo'));
++  assert.throws(()=>validate('name: demo\ndescription: '+ 'x'.repeat(1025), 'demo'));
++  assert.throws(()=>validate('name: demo\ndescription: x\ncompatibility: '+ 'x'.repeat(501), 'demo'));
+   assert.equal(validate('name: demo\ndescription: useful\nmetadata: {author: test}', 'demo').name,'demo');
+   for (const yaml of ['name: demo', 'name: Demo\ndescription: x', 'name: demo\ndescription: ""', 'name: demo\ndescription: x\nmetadata: {a: 1}', 'name: demo\ndescription: x\nlicense: 3', 'name: demo\ndescription: x\nunknown: y','name: a--b\ndescription: x']) assert.throws(() => validate(yaml,'demo'));
+ });

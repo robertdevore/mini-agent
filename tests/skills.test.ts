@@ -5,6 +5,10 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { validate, discover, safePath, frontmatter, projectRoot } from '../src/skills.js';
 test('metadata requirements and optional field constraints', () => {
+  assert.equal(validate('name: 中文\ndescription: useful', '中文').name,'中文');
+  assert.throws(()=>validate('name: demo\ndescription: x\nmetadata: {3: value}', 'demo'));
+  assert.throws(()=>validate('name: demo\ndescription: '+ 'x'.repeat(1025), 'demo'));
+  assert.throws(()=>validate('name: demo\ndescription: x\ncompatibility: '+ 'x'.repeat(501), 'demo'));
   assert.equal(validate('name: demo\ndescription: useful\nmetadata: {author: test}', 'demo').name,'demo');
   for (const yaml of ['name: demo', 'name: Demo\ndescription: x', 'name: demo\ndescription: ""', 'name: demo\ndescription: x\nmetadata: {a: 1}', 'name: demo\ndescription: x\nlicense: 3', 'name: demo\ndescription: x\nunknown: y','name: a--b\ndescription: x']) assert.throws(() => validate(yaml,'demo'));
 });

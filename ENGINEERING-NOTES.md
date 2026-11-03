@@ -15,3 +15,50 @@ Commits are made manually to retain meaningful messages without harness auto-ame
 Challenges: installed gh predates --source; repository created using authenticated
 GitHub REST API then pushed normally. PackWrite launcher needed explicit KUJO path.
 Live Anthropic credentials absent at initial inspection; offline tests cannot prove routing.
+
+## Verification and workflow details
+
+PackWrite's initial manifest attempts failed on output-rooted paths and required
+handoff/phase headings. Those failures are visible in the early planning commits;
+no implementation began until validation passed. Final planning validation passed
+with nine advisory warnings about concise phases/prompts. The agent-authored offline
+manifest is intentional and not evidence of a separate provider's reasoning.
+
+Milestones are real commits: skill foundation, Claude runtime, three skills,
+then adversarial/context tests. Loop ran actual npm tests/typecheck/build/diff gates.
+Its harness reuses iteration 001 on each invocation; successful milestone evidence
+is preserved under .loop-engineering/evidence/runtime, skills, and adversarial.
+The runtime snapshot includes the foundation tests. Logs are committed explicitly.
+A gate failure on whitespace inside saved patch evidence was resolved with a scoped
+Git attribute for patch files; application whitespace checks remain enabled.
+
+Official validator: agentskills/agentskills at
+69ef37e9424c0a7ea9dd2293b559e43ec8176379. Initial Python 3.10 install failed because
+skills-ref requires >=3.11; reran in a Python 3.11 virtual environment successfully.
+This Python environment is upstream validation tooling only, not project runtime.
+Commands (after installing skills-ref from the pinned upstream checkout):
+
+```bash
+skills-ref validate .agents/skills/welcome-me
+skills-ref validate .agents/skills/wiki-changelog
+skills-ref validate .agents/skills/documentation-readme
+```
+
+All three passed. Both external SKILL.md files were compared byte-for-byte against
+the pinned upstream checkout and match. The documentation-readme registry URL
+returned HTTP 200 and contains the named skill. Raw upstream licenses are bundled.
+
+21 offline tests pass. The live command actually ran and skipped for absent
+ANTHROPIC_API_KEY. No provider credentials were searched for in private files.
+The separate skeptical review is in REVIEW.md; it is not a human endorsement.
+
+## Time accounting
+
+This is an AI-assisted engineering session, not measured human labor. Wall-clock
+start was recorded explicitly above. No human hands-on stopwatch exists; human
+hands-on time is therefore **not measured**, not equated with commit elapsed time.
+Work proceeded continuously, with dependency installs, Git/network operations,
+validator setup, and tests overlapping some editing. No substantial intentional
+pause occurred. Wait time was not separately instrumented and cannot truthfully be
+subtracted to claim an exact active-work duration. Final commit interval is recorded
+below after verification, without rewriting commit dates.
