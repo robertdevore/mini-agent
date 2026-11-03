@@ -36,3 +36,12 @@ test("README checks fail missing evidence and preserve neutral limitations", () 
   assert.equal(readmeClaims("# Mini Agent")["welcome header explicitly scoped to activation"], false);
   assert.ok(Object.values(readmeClaims(`${complete}\nHistory is limited to 20 commits; diffs and tags are unavailable.`)).every(Boolean));
 });
+
+
+test("README header check recognizes the owner sample's exact-line wording", () => {
+  const row = "| welcome-me | Onboarding for new contributors. When this skill is activated, the final answer must start with the exact line > Welcome to our agent!. The runtime rejects a response that lacks it and does not repair it. |";
+  const check = "welcome header explicitly scoped to activation";
+  assert.equal(readmeClaims(row)[check], true);
+  assert.equal(readmeClaims(row.replace("When this skill is activated, ", ""))[check], false);
+  assert.equal(readmeClaims(`${row}\n\nwelcome-me requires the exact line in every response.`)[check], false);
+});

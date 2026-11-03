@@ -211,3 +211,14 @@ allowance from 4096 to 8192 tokens; kept rejection of truncated answers and adde
 explicit cap-specific error. No automatic retries or continuations were added.
 31 offline tests, typecheck, build, and diff checks pass. Live verification is pending;
 the increased allowance can increase output usage and does not guarantee completion.
+
+
+## Completed live drafts and checker correction
+
+The owner supplied complete README and changelog drafts after the 8192-token increase.
+The sole failure was a heuristic false negative: “exact line” was not recognized even
+though the README explicitly scoped the requirement to skill activation. Added that
+wording and positive/negative regression cases. All 15 text checks pass when replayed
+against the supplied output; both activation checks were reported passing by the live
+harness. All 32 offline tests, typecheck, build, and diff checks pass. No paid rerun
+was made or needed to check this deterministic correction.

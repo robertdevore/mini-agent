@@ -15,7 +15,7 @@ export function changelogClaims(answer: string, hashes: string[]): Record<string
 export function readmeClaims(answer: string): Record<string, boolean> {
   const text = answer.replace(/[*_`]/g, "").replace(/\r/g, "");
   const paragraphs = text.split(/\n\s*\n/);
-  const headerClaims = paragraphs.filter(p => /welcome-me/i.test(p) && /header|first line/i.test(p));
+  const headerClaims = paragraphs.filter(p => /welcome-me/i.test(p) && /header|(?:first|exact) line/i.test(p));
   return {
     "offline and paid live tests distinguished":
       /offline tests/i.test(text) &&

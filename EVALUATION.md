@@ -1,8 +1,9 @@
 # Evaluation
 
-Current status: the latest owner-supplied run identifies output truncation in both
-drafts (max_tokens on turn four). The allowance is now 8192 tokens instead of 4096.
-All 31 offline tests, typecheck, and build pass; live verification of the increase is pending.
+Current status: both owner-supplied drafts completed with the 8192-token allowance.
+The README had one false-negative heuristic result, now fixed. Rechecking the supplied
+text passes all text checks; skill activation remains owner-reported. All 32 offline
+tests, typecheck, and build pass.
 
 ## Owner-reported verification — November 3, 2026
 
@@ -261,3 +262,27 @@ the requested allowance, preservation of complete answers, rejection of partial
 answers, and diagnostic reporting. They do not prove that 8192 tokens will suffice
 for every live draft. The editing session has no exported API key; the owner will
 rerun the live draft suite to verify the observed workflows.
+
+
+## Completed drafts and false-negative correction — November 3, 2026
+
+The owner supplied both complete drafts after the output-allowance change. Ten README
+checks and six changelog checks passed; only the activation-scoped header check failed.
+The README table explicitly says “When this skill is activated” and “the exact line”.
+The checker searched for “header” or “first line”, so it failed to find that claim.
+
+Added “exact line” to the recognized wording. Regression coverage accepts the supplied
+row and rejects it with the activation condition removed or an unscoped second claim
+added. The runtime and generation instructions are unchanged.
+
+Replayed the text checks against the actual supplied drafts, using the 20-commit
+window ending at 568a656 for changelog citations and counts. All 15 text checks pass;
+the two skill-activation passes come from the supplied live output, not reconstructed
+trace state. This accounts for all 17 checks without another paid API call. All 32
+offline tests, typecheck, build, and diff checks pass.
+
+The output-allowance increase worked for this observed run. The draft statements
+that live verification was pending reflect the engineering documents at generation
+time; this record now supplies the subsequent evidence. Heuristic passes do not
+certify every sentence or future output. The maintained README is unchanged by this
+sample, and the original pre-diagnostic failure remains historically unclassified.
