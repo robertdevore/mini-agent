@@ -1,0 +1,56 @@
+{
+  "files": [
+    {
+      "path": "MASTER.md",
+      "content": "# Mini Agent implementation contract\nBuild a minimal TypeScript Node CLI with official Anthropic SDK and YAML parser.\nAssignment: three skills, model-selected activation, exact welcome header, no unrelated instructions in context; readable CLI, offline and optional live verification.\nSpecification: validate name/description and optional license/compatibility/metadata/allowed-tools; SKILL.md directories; progressive disclosure. Scripts and automatic writes are optional and excluded.\nChoices: nearest ancestor with .git or package.json is root; .skills takes precedence over .agents/skills; reject malformed skills, diagnose shadowed duplicates; read frontmatter only at discovery; full instructions on tool activation, bounded skill-relative resources. Repository inspection only for activated skills and tracked non-secret files. No shell, installs, arbitrary network or writes.\nArchitecture: skills.ts handles metadata/catalog/resources; repository.ts handles bounded read-only git and file operations; agent.ts handles official message blocks and tool results; cli.ts handles flags/exit codes. Model selects skills, never keyword rules. Trace records runtime events only on stderr. Strict welcome assertion fails rather than repairs output.\nExternal skills: preserve Microsoft wiki-changelog; provide git history and remote context, and honor its question when user has not confirmed source context. Replace UC Davis documentation-project (eleven files, writes, Mermaid rendering) with authentic documentation-readme from same published registry; emit README draft to stdout, do not claim filesystem writes. Preserve sources/licenses and upstream bytes.\nVerification: deterministic injected model tests inspect actual request contexts and tool-result ordering; live routing evaluated separately if ANTHROPIC_API_KEY exists. Official skills-ref validation, clean clone install/test/build; separate skeptical review. No live accuracy claims from stubs.\nMilestones: foundation; Claude runtime; three functional skills; tracing/adversarial tests; final docs/review. Each has tests and a real commit. Use Loop gates after each stage. Record timestamps honestly, no fabricated hands-on time.\n\n"
+    },
+    {
+      "path": "TODO.md",
+      "content": "# Milestones\n- [ ] [project-brief](phases/00-project-brief.md)\n- [ ] [skill-foundation](phases/01-skill-foundation.md)\n- [ ] [claude-runtime](phases/02-claude-runtime.md)\n- [ ] [functional-skills](phases/03-functional-skills.md)\n- [ ] [tracing-and-adversarial-tests](phases/04-tracing-and-adversarial-tests.md)\n- [ ] [final-verification](phases/05-final-verification.md)\n"
+    },
+    {
+      "path": "HANDOFF.md",
+      "content": "# Handoff\nBaseline pushed. Implement contract; record evidence and remaining live verification honestly.\n"
+    },
+    {
+      "path": "DECISIONS.md",
+      "content": "# Decisions\nRead-only output drafts. Proper YAML parsing. No routing shortcuts. External skill substitution documented in MASTER.\n"
+    },
+    {
+      "path": "REVIEW_CHECKLIST.md",
+      "content": "# Review\n- [ ] Context isolation\n- [ ] Tool ordering and failures\n- [ ] Path boundaries\n- [ ] External skills usable\n- [ ] Honest live claims\n"
+    },
+    {
+      "path": "DEEPSEEK_START.md",
+      "content": "# Implementation\nRead MASTER.md and execute TODO.md in order, testing each milestone.\n"
+    },
+    {
+      "path": "CODEX_REVIEW_PROMPT.md",
+      "content": "# Independent review\nSkeptically inspect runtime boundaries, specification compliance, actual request context tests, external skill fidelity, and evidence claims. Fix substantive issues and record severity.\n"
+    },
+    {
+      "path": "phases/00-project-brief.md",
+      "content": "# project-brief\n\n## Scope\nComplete project-brief against MASTER.md.\n\n## Acceptance criteria\nApplicable requirements have behavioral verification; no unverified claims.\n\n## Verification\nRun applicable npm tests, typecheck and build through Loop.\n\n"
+    },
+    {
+      "path": "phases/01-skill-foundation.md",
+      "content": "# skill-foundation\n\n## Scope\nComplete skill-foundation against MASTER.md.\n\n## Acceptance criteria\nApplicable requirements have behavioral verification; no unverified claims.\n\n## Verification\nRun applicable npm tests, typecheck and build through Loop.\n\n"
+    },
+    {
+      "path": "phases/02-claude-runtime.md",
+      "content": "# claude-runtime\n\n## Scope\nComplete claude-runtime against MASTER.md.\n\n## Acceptance criteria\nApplicable requirements have behavioral verification; no unverified claims.\n\n## Verification\nRun applicable npm tests, typecheck and build through Loop.\n\n"
+    },
+    {
+      "path": "phases/03-functional-skills.md",
+      "content": "# functional-skills\n\n## Scope\nComplete functional-skills against MASTER.md.\n\n## Acceptance criteria\nApplicable requirements have behavioral verification; no unverified claims.\n\n## Verification\nRun applicable npm tests, typecheck and build through Loop.\n\n"
+    },
+    {
+      "path": "phases/04-tracing-and-adversarial-tests.md",
+      "content": "# tracing-and-adversarial-tests\n\n## Scope\nComplete tracing-and-adversarial-tests against MASTER.md.\n\n## Acceptance criteria\nApplicable requirements have behavioral verification; no unverified claims.\n\n## Verification\nRun applicable npm tests, typecheck and build through Loop.\n\n"
+    },
+    {
+      "path": "phases/05-final-verification.md",
+      "content": "# final-verification\n\n## Scope\nComplete final-verification against MASTER.md.\n\n## Acceptance criteria\nApplicable requirements have behavioral verification; no unverified claims.\n\n## Verification\nRun applicable npm tests, typecheck and build through Loop.\n\n"
+    }
+  ]
+}
