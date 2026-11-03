@@ -137,3 +137,13 @@ checks. The owner then supplied a live draft run with all 13 heuristics passing;
 manual review confirmed the previously identified material errors were corrected
 in that sample. EVALUATION.md records the findings, remaining editorial cleanup,
 and limits. These later results do not alter the original delivery timeline.
+
+
+### README completion correction
+
+The owner rejected leaving known generated README defects for manual cleanup. The
+system prompt now requires finished document prose and accurate scopes for tests,
+header checks, and skill access. Four additional live checks reject the observed
+patterns; three offline regression tests exercise faulty and corrected passages.
+All 26 offline tests, typecheck, build, and diff checks passed. No API key is exported
+in the editing session; fresh live verification of this change remains pending.

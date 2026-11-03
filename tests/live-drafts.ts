@@ -1,7 +1,7 @@
 import { runAgent, DEFAULT_MODEL } from "../src/agent.js";
 import { claude } from "../src/claude.js";
 import { history } from "../src/repository.js";
-import { changelogClaims } from "./draft-claims.js";
+import { changelogClaims, readmeClaims } from "./draft-claims.js";
 
 // Submission checks for this repository, not production routing or general quality scoring.
 // Print both drafts so the owner can verify facts and commit citations manually.
@@ -27,6 +27,7 @@ if (!process.env.ANTHROPIC_API_KEY) {
         checks["project maintainer present"] = result.answer.includes("Robert DeVore");
         checks["upstream author not named as project maintainer"] = !/maintainer[^\n]*(?:Simon Dvorak|sidvorak@)/i.test(result.answer);
         checks["document returned directly"] = /^# Mini Agent\b/.test(result.answer);
+        Object.assign(checks, readmeClaims(result.answer));
       }
       if (index === 1) {
         const data = JSON.parse(await history(process.cwd()));

@@ -1,6 +1,7 @@
 # Evaluation
 
-Current status: the third owner-supplied draft run passed all 13 heuristic checks.
+Current status: 26 offline tests, typecheck, and build pass after the README completion fix.
+A fresh live draft run is pending; the earlier 13-check pass did not catch all observed defects.
 Manual review confirms the previously reported attribution, language, URL, count,
 date-grouping, and unsupported tag-claim errors are corrected in this sample.
 See the final section for evidence and minor wording edits.
@@ -163,7 +164,7 @@ commits without assigning successful validation to the first one. The README use
 Robert DeVore, English, the real repository URL, and the current history-tool fields.
 The earlier material errors are corrected in this sample.
 
-Before using the generated README as permanent documentation, make these small edits:
+The following defects remained despite the passing checks:
 
 - Say “offline tests and --list-skills” need no API key; live tests use one.
 - Explicitly scope the exact welcome-header assertion to activated welcome-me responses.
@@ -173,8 +174,34 @@ Before using the generated README as permanent documentation, make these small e
 
 The changelog's caveat that ENGINEERING-NOTES.md lacked verification for the two
 latest fixes was accurate when generated: the 23-test evidence was in EVALUATION.md.
-The engineering notes now cross-reference that evidence. No runtime change or
-additional paid rerun is needed merely to record this sample and polish the draft.
+The engineering notes now cross-reference that evidence. The initial review treated
+the remaining README defects as manual cleanup. The owner rejected that disposition;
+the generator and live checks now address them, as recorded below.
 The existing committed README remains the maintained project documentation; the
 supplied draft has not replaced it. This is evidence for one run, not a promise of
 perfect output on all future prompts.
+
+
+## README completion correction — November 3, 2026
+
+The owner requires the generator to finish its drafts even when the generated README
+will not replace the maintained README. The earlier recommendation to leave these
+issues for manual polish was withdrawn.
+
+The system instructions now require complete document prose, omit optional missing
+contact fields, prohibit inspection/editing narration, scope conditional runtime
+claims, distinguish offline and paid live tests, and distinguish repository exclusions
+from skill activation/resource reads. These are model instructions, not a guarantee
+that every generated claim is correct.
+
+The live README check now rejects the observed missing qualifications, inspection
+narration, editing suggestions, and claim that activated skill contents were unread.
+Four added checks bring the draft suite to 17 checks. Regression fixtures demonstrate
+that the supplied defective passages fail and that a complete, scoped document with
+neutral limitations passes. The checks recognize English patterns and do not establish
+universal factual accuracy.
+
+Local validation: all 26 offline tests, typecheck, build, and diff checks passed.
+The editing session has no exported API key, so a fresh Sonnet draft remains unverified.
+Run `npm run test:live:drafts` from a credentialed shell and inspect the complete output.
+Do not treat the previous 13-check result as validation of these new instructions.

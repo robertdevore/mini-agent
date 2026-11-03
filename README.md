@@ -137,7 +137,8 @@ bundled. Maintainer: [Robert DeVore](https://github.com/robertdevore).
 
 `npm run test:live:drafts` runs two paid draft workflows (each may make several model
 requests), prints a README and changelog, and checks selected project facts and output
-formatting. Review the drafts even when the checks pass. See EVALUATION.md for the
+formatting, offline/live test distinctions, activation-scoped header requirements, and
+unwanted inspection or editing commentary. Review the drafts even when the checks pass. See EVALUATION.md for the
 owner-supplied failures that prompted these checks and the current verification status.
 
 The `git_history` result includes `returnedCommitCount`, the selected `commitHashes`,
