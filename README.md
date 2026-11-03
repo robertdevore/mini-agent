@@ -132,3 +132,10 @@ for test results, [SPEC-COMPLIANCE.md](SPEC-COMPLIANCE.md) for the contract,
 Runtime dependencies: official `@anthropic-ai/sdk` and `yaml`; development uses
 TypeScript, `tsx`, and Node types. MIT license; upstream skill notices remain
 bundled. Maintainer: [Robert DeVore](https://github.com/robertdevore).
+
+### Review generated drafts
+
+`npm run test:live:drafts` runs two paid draft workflows (each may make several model
+requests), prints a README and changelog, and checks selected project facts and output
+formatting. Review the drafts even when the checks pass. See EVALUATION.md for the
+owner-supplied failures that prompted these checks and the current verification status.

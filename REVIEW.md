@@ -37,3 +37,11 @@ read-only scope, model-access choice, AI-assisted work disclosure, and time stat
 The owner has since run the live suite successfully. Inspect actual changelog and
 documentation drafts as well. These decisions
 need the owner's judgment. The agent did not deploy the project or contact the hiring team.
+
+## Later live-output review
+
+The owner's draft samples exposed incorrect maintainer attribution, unrequested
+language changes, known-value placeholders, and unsupported changelog claims.
+EVALUATION.md records the findings and source checks. The system prompt now gives
+project evidence precedence over skill examples and authorship. These corrections
+still need a live rerun; eight earlier routing passes do not establish draft quality.

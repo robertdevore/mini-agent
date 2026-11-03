@@ -68,3 +68,40 @@ without changing that historical result.
 
 ENGINEERING-NOTES.md and the Loop evidence record official skill validation and
 clean-clone results. Passing format checks does not prove useful live behavior.
+
+## Owner-supplied draft review — November 3, 2026
+
+The owner next supplied a generated changelog and README for source review. This
+exposed output-quality failures despite the eight routing passes:
+
+- The README named upstream skill author Simon Dvorak as this project's maintainer,
+  overriding README.md's Robert DeVore attribution. This is incorrect.
+- Its preamble and closing notes switched to Chinese despite an English request.
+- It left repository URL placeholders even though the project URL was available.
+- Its claim that unrelated prompts activate no skill was too absolute; routing is
+  model-dependent. Its API-key table also needed to distinguish offline tests from
+  paid live tests.
+- The changelog claimed 15 commits; the inspected history through 1a8b536 contains
+  13, and its citations list those 13. All cited hashes resolve and the main file
+  additions match the commits.
+- It called the plan in a849dc2 validated. That commit's own message and early notes
+  prematurely claimed validation; ENGINEERING-NOTES.md explains the failed attempts.
+  The validated execution pack was committed in 427cf32.
+- It grouped changes by category but omitted wiki-changelog's daily/weekly grouping.
+  It correctly disclosed that it had not read diffs, so its breaking-change section
+  is not a verified compatibility assessment.
+
+The README's main module descriptions, tool names, settings, and numeric limits
+match the inspected source. The drafts should not be submitted unchanged.
+
+The system instructions now separate skill authorship from target-project facts,
+prefer inspected repository facts over conflicting skill examples, preserve the
+user's language, avoid known-value placeholders, and qualify claims based only on
+commit messages. Upstream skill files remain unchanged. This is a prompt correction,
+not a deterministic guarantee of model compliance.
+
+Run `npm run test:live:drafts` with credentials to regenerate both outputs. It prints
+the drafts and checks a few repository-specific facts, language drift, and placeholders.
+Its checks are heuristics; inspect the drafts and citations even if they pass.
+The editing agent had no exported API key and has not live-verified this correction.
+The earlier eight-pass result applies to the previous prompt, not this revision.

@@ -11,7 +11,8 @@
     "test": "tsx --test tests/*.test.ts",
     "typecheck": "tsc --noEmit",
     "build": "tsc",
-    "test:live": "tsx tests/live.ts"
+    "test:live": "tsx tests/live.ts",
+    "test:live:drafts": "tsx tests/live-drafts.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.4.0",
