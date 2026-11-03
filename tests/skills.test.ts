@@ -92,3 +92,36 @@ test("discovery precedence, lazy resources, frontmatter-only and root search", a
   await symlink(tmpdir(), path.join(root, "escape"));
   await assert.rejects(safePath(root, "escape/test"));
 });
+
+test("bounded frontmatter preserves UTF-8, line endings and delimiter boundaries", async t => {
+  const root = await mkdtemp(path.join(tmpdir(), "mini-header-"));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const file = path.join(root, "SKILL.md");
+  for (const eol of ["\n", "\r\n"]) {
+    const yaml = `name: demo${eol}description: café 中文 😀${eol}`;
+    await writeFile(file, `---${eol}${yaml}---${eol}BODY_SECRET`);
+    assert.equal(await frontmatter(file), yaml);
+    assert.equal(validate(await frontmatter(file), "demo").description, "café 中文 😀");
+  }
+  // The closing newline must fit inside the existing 16 KiB byte limit.
+  const yaml = "#" + "é".repeat(8187) + "\n";
+  assert.equal(Buffer.byteLength(`---\n${yaml}---\n`), 16384);
+  await writeFile(file, `---\n${yaml}---\n${"body".repeat(20000)}`);
+  assert.equal(await frontmatter(file), yaml);
+  for (const content of [
+    `---\n${yaml} ---\n`, // delimiter beyond the limit
+    "---\nname: demo\n---", // no closing newline, as before
+    "---\nname: demo\n--- \n", // trailing space is not a delimiter
+    "---\nname: demo", "", "---",
+  ]) {
+    await writeFile(file, content);
+    await assert.rejects(frontmatter(file), /Unterminated or oversized/);
+  }
+  for (const content of ["name: demo\n---\n", "\uFEFF---\nname: demo\n---\n", " ---\n---\n"]) {
+    await writeFile(file, content);
+    await assert.rejects(frontmatter(file), /Missing YAML frontmatter/);
+  }
+  await writeFile(file, "---\nname: [\n---\nbody");
+  assert.throws(() => validate("name: [\n", "demo"), /Malformed YAML/);
+  assert.equal(await frontmatter(file), "name: [\n");
+});

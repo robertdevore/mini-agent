@@ -1,9 +1,9 @@
+import { git } from "./git-fixture.js";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { runAgent, type Model } from "../src/agent.js";
 import { discover } from "../src/skills.js";
 import {
-  git,
   history,
   listRepository,
   readRepository,

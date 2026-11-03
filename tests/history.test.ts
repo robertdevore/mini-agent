@@ -1,9 +1,10 @@
+import { git } from "./git-fixture.js";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { git, history } from "../src/repository.js";
+import { history } from "../src/repository.js";
 
 test("history counts actual selected commits and caps a longer history at 20", async t => {
   const root = await mkdtemp(path.join(tmpdir(), "mini-history-"));
@@ -35,4 +36,9 @@ test("draft checks reject the observed inflated count and nonexistent citations"
   assert.deepEqual(Object.values(changelogClaims(`These notes cover the 17 commits the history tool returned. ${citation}`, hashes)), [false, true]);
   assert.deepEqual(Object.values(changelogClaims(`These notes cover the 14 commits the history tool returned. ${citation}`, hashes)), [true, true]);
   assert.equal(changelogClaims(`https://github.com/robertdevore/mini-agent/commit/${"f".repeat(40)}`, hashes)["commit citations resolve within returned history"], false);
+});
+
+test("repository runtime exports only fixed read-only operations", async () => {
+  const repository = await import("../src/repository.js");
+  assert.deepEqual(Object.keys(repository).sort(), ["history", "listRepository", "readRepository", "remote"]);
 });

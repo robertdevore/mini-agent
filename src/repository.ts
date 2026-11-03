@@ -4,7 +4,7 @@ import { readBounded, safePath } from "./skills.js";
 const exec = promisify(execFile);
 const denied =
   /(^|\/)(\.[^/]+|node_modules|dist|agent|planning)(\/|$)|(^|\/)(?:[^/]*(?:secret|credential|token|private[-_]key)[^/]*|SKILL\.md|[^/]*\.(?:pem|key|p12|pfx))$/i;
-export async function git(root: string, args: string[]): Promise<string> {
+async function git(root: string, args: string[]): Promise<string> {
   try {
     return (
       await exec("git", ["--no-pager", ...args], {

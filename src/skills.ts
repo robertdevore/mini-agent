@@ -41,34 +41,33 @@ export async function readBounded(file: string): Promise<string> {
     await handle.close();
   }
 }
-// Read only through the closing delimiter; no instruction body is read at discovery.
+// Read a bounded prefix; return only metadata, never the buffered body suffix.
 export async function frontmatter(file: string): Promise<string> {
   const handle = await open(file, "r");
   try {
     if (!(await handle.stat()).isFile())
       throw new Error("Skill must be a regular file");
-    const bytes: number[] = [];
-    const byte = Buffer.alloc(1);
-    let line = "";
-    let first = true;
-    for (let i = 0; i < 16384; i++) {
-      if (!(await handle.read(byte, 0, 1, i)).bytesRead) break;
-      const value = byte[0]!;
-      if (value === 10) {
-        const clean = line.replace(/\r$/, "");
-        if (first) {
-          if (clean !== "---") throw new Error("Missing YAML frontmatter");
-          first = false;
-        } else if (clean === "---")
-          return Buffer.from(
-            bytes.slice(0, bytes.length - Buffer.byteLength(line)),
-          ).toString("utf8");
-        else bytes.push(10);
-        line = "";
-      } else {
-        line += String.fromCharCode(value);
-        if (!first) bytes.push(value);
+    const bytes = Buffer.alloc(16384);
+    let length = 0;
+    // Regular-file reads may be short; fill only the bounded prefix.
+    while (length < bytes.length) {
+      const { bytesRead } = await handle.read(bytes, length, bytes.length - length, length);
+      if (!bytesRead) break;
+      length += bytesRead;
+    }
+    const prefix = bytes.subarray(0, length);
+    let start = 0;
+    let metadataStart = 0;
+    for (let end = prefix.indexOf(10); end !== -1; end = prefix.indexOf(10, start)) {
+      const lineEnd = prefix[end - 1] === 13 ? end - 1 : end;
+      const delimiter = prefix.subarray(start, lineEnd).equals(Buffer.from("---"));
+      if (start === 0) {
+        if (!delimiter) throw new Error("Missing YAML frontmatter");
+        metadataStart = end + 1;
+      } else if (delimiter) {
+        return prefix.subarray(metadataStart, start).toString("utf8");
       }
+      start = end + 1;
     }
     throw new Error("Unterminated or oversized frontmatter");
   } finally {
