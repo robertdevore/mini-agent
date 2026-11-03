@@ -18,6 +18,8 @@ import {
   readRepository,
   remote,
 } from "./repository.js";
+// Enough room for repository-grounded drafts while keeping every turn bounded.
+export const MAX_OUTPUT_TOKENS = 8192;
 export const DEFAULT_MODEL = "claude-sonnet-5-5";
 export type Request = {
   model: string;
@@ -114,7 +116,7 @@ export async function runAgent(options: {
     try {
       response = await options.model({
         model: options.modelId ?? DEFAULT_MODEL,
-        max_tokens: 4096,
+        max_tokens: MAX_OUTPUT_TOKENS,
         system,
         messages: structuredClone(messages),
         tools,
@@ -126,6 +128,10 @@ export async function runAgent(options: {
       );
     }
     const calls = response.content.filter((b) => b.type === "tool_use");
+    if (response.stop_reason === "max_tokens")
+      throw new Error(
+        `Claude reached the ${MAX_OUTPUT_TOKENS}-token output limit; no partial answer accepted. Request a shorter document or narrower scope.`,
+      );
     if (
       response.stop_reason !== "tool_use" &&
       response.stop_reason !== "end_turn"

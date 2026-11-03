@@ -201,3 +201,13 @@ The arbitrary-argument Git helper is now module-private. The repository module e
 only history, remote, listRepository, and readRepository. Tests use a separate helper
 for fixture creation and independent Git assertions. This narrows the maintenance
 surface without changing model-facing capabilities or claiming process isolation.
+
+
+## Output allowance correction
+
+The latest owner-supplied diagnostics identify max_tokens on turn four for both
+README and changelog, after successful repository tool reads. Raised the per-turn
+allowance from 4096 to 8192 tokens; kept rejection of truncated answers and added an
+explicit cap-specific error. No automatic retries or continuations were added.
+31 offline tests, typecheck, build, and diff checks pass. Live verification is pending;
+the increased allowance can increase output usage and does not guarantee completion.

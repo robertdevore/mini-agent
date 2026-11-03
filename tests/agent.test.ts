@@ -97,7 +97,7 @@ test("API failures and incomplete responses cannot fabricate success", async (t)
       prompt: "x",
       model: async () => ({ ...end("partial"), stop_reason: "max_tokens" }),
     }),
-    /incomplete/,
+    /8192-token output limit/,
   );
 });
 test("exact welcome header fails closed", async (t) => {
@@ -129,4 +129,19 @@ test("bounded execution rejects endless tools", async (t) => {
     }),
     /step limit/,
   );
+});
+
+
+test("requests allow longer drafts but still reject truncated text", async t => {
+  const root = await fixture(t);
+  const draft = "Complete document section.\n".repeat(1000);
+  const result = await runAgent({ root, prompt: "Draft documentation", model: async request => {
+    assert.equal(request.max_tokens, 8192);
+    return end(draft);
+  } });
+  assert.equal(result.answer, draft);
+  await assert.rejects(runAgent({ root, prompt: "Draft documentation", model: async request => {
+    assert.equal(request.max_tokens, 8192);
+    return { ...end(draft), stop_reason: "max_tokens" };
+  } }), /no partial answer accepted/);
 });

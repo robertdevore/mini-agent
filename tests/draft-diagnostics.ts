@@ -1,4 +1,4 @@
-import type { Model } from "../src/agent.js";
+import { MAX_OUTPUT_TOKENS, type Model } from "../src/agent.js";
 
 // Only fixed labels and bounded numeric metadata may leave the model boundary.
 export function diagnosticModel(model: Model, events: string[]): Model {
@@ -22,6 +22,7 @@ export function diagnosticModel(model: Model, events: string[]): Model {
 export function draftFailure(error: unknown): string {
   const message = error instanceof Error ? error.message : "";
   const known = [
+    `Claude reached the ${MAX_OUTPUT_TOKENS}-token output limit; no partial answer accepted. Request a shorter document or narrower scope.`,
     "Claude request failed. Check API credentials, model access, and connectivity.",
     "Claude response incomplete or refused; no final answer accepted",
     "Agent step limit reached without a final response",

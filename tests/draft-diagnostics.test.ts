@@ -9,7 +9,7 @@ test("draft diagnostics distinguish truncation, refusal, and exhausted steps", a
     const events: string[] = [];
     const model: Model = async () => ({ stop_reason: reason, content: reason === "tool_use" ? [{ type: "tool_use", id: "one", name: "unknown", input: {}, caller: { type: "direct" } }] : [] });
     await assert.rejects(runAgent({ root: process.cwd(), prompt: "test", maxSteps: 1, model: diagnosticModel(model, events) }), error => {
-      assert.match(draftFailure(error), reason === "tool_use" ? /step limit/ : /incomplete or refused/);
+      assert.match(draftFailure(error), reason === "tool_use" ? /step limit/ : reason === "max_tokens" ? /8192-token output limit/ : /incomplete or refused/);
       return true;
     });
     assert.deepEqual(events, [`Model turn 1: stop_reason=${reason}`]);

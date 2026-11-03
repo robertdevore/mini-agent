@@ -42,7 +42,7 @@ weather tool. The model chooses workflows; there are no keyword routing rules.
 
 The CLI does **not** load environment files automatically. Export variables in your shell
 or use Node's explicit `--env-file=.env` when running the compiled CLI. Requests
-have a 60-second timeout and one SDK retry; output is limited to 4096 tokens per turn.
+have a 60-second timeout and one SDK retry; output is limited to 8192 tokens per turn.
 The agent reports an error if a response is cut short or the step limit is reached.
 
 Create a key in the [Claude Console](https://platform.claude.com/settings/keys)

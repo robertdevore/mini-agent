@@ -1,8 +1,8 @@
 # Evaluation
 
-Current status: the latest owner-supplied run failed to generate a README; its
-changelog passed six checks. The cause was hidden by the harness. After the bounded discovery and private Git helper changes,
-30 offline tests, typecheck, and build pass; live diagnosis is pending.
+Current status: the latest owner-supplied run identifies output truncation in both
+drafts (max_tokens on turn four). The allowance is now 8192 tokens instead of 4096.
+All 31 offline tests, typecheck, and build pass; live verification of the increase is pending.
 
 ## Owner-reported verification — November 3, 2026
 
@@ -242,3 +242,22 @@ Validation: all 30 offline tests, typecheck, build, and diff checks passed. Thes
 changes do not diagnose the earlier live README failure; the owner will rerun the
 live draft suite with the new diagnostics. Submission-facing README cleanup preserves
 the process history in ENGINEERING-NOTES.md and the existing development artifacts.
+
+
+## Confirmed output truncation — November 3, 2026
+
+The owner supplied diagnostic output for both drafts: three tool-use turns followed
+by max_tokens on turn four. These runs hit the 4096-token response cap, not the
+12-turn limit. Repository reads completed before the truncated response. This evidence
+does not retroactively identify the cause of the earlier undiagnosed run.
+
+Raised the shared per-turn output allowance to 8192 for the CLI and live suites.
+No automatic retry or continuation was added. A truncated response still fails;
+the error now names the cap and suggests a shorter document or narrower scope.
+The higher ceiling permits longer responses and potentially higher output usage.
+
+All 31 offline tests, typecheck, build, and diff checks passed. Scripted tests verify
+the requested allowance, preservation of complete answers, rejection of partial
+answers, and diagnostic reporting. They do not prove that 8192 tokens will suffice
+for every live draft. The editing session has no exported API key; the owner will
+rerun the live draft suite to verify the observed workflows.
