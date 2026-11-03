@@ -1,10 +1,8 @@
 # Evaluation
 
-Current status: 26 offline tests, typecheck, and build pass after the README completion fix.
-A fresh live draft run is pending; the earlier 13-check pass did not catch all observed defects.
-Manual review confirms the previously reported attribution, language, URL, count,
-date-grouping, and unsupported tag-claim errors are corrected in this sample.
-See the final section for evidence and minor wording edits.
+Current status: the latest owner-supplied run failed to generate a README; its
+changelog passed six checks. The cause was hidden by the harness. Diagnostic coverage
+now passes locally with 28 offline tests, typecheck, and build; live diagnosis is pending.
 
 ## Owner-reported verification — November 3, 2026
 
@@ -205,3 +203,24 @@ Local validation: all 26 offline tests, typecheck, build, and diff checks passed
 The editing session has no exported API key, so a fresh Sonnet draft remains unverified.
 Run `npm run test:live:drafts` from a credentialed shell and inspect the complete output.
 Do not treat the previous 13-check result as validation of these new instructions.
+
+
+## Failed README run and diagnostic correction — November 3, 2026
+
+The owner supplied a run after be94a69 with a generic generation failure instead of a
+README. No README content or stop reason was recorded, so the cause cannot be assigned
+to output truncation, the step limit, refusal, or an API failure. The changelog passed
+its six checks; Git confirms 17 commits through be94a69. That does not make the combined
+run successful, nor establish that every changelog claim is accurate.
+
+The harness now identifies the failed workflow, reports known runtime failures,
+records model stop reasons, and reports sanitized HTTP status/timeout/connection
+categories. Failures include the final 12 runtime trace events. It never prints raw
+provider exception messages or response bodies. Scripted regressions exercise truncation,
+refusal, exhausted steps, and a provider failure containing a secret-like payload.
+All 28 offline tests, typecheck, build, and diff checks pass. Production limits and retry
+behavior are unchanged; the failure evidence does not justify changing them yet.
+
+Next: run npm run test:live:drafts in a credentialed shell. Inspect the detailed error
+if it fails, or the complete drafts if it succeeds. The editing session still lacks an
+exported API key; the original README failure remains undiagnosed.

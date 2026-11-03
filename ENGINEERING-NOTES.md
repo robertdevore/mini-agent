@@ -147,3 +147,12 @@ header checks, and skill access. Four additional live checks reject the observed
 patterns; three offline regression tests exercise faulty and corrected passages.
 All 26 offline tests, typecheck, build, and diff checks passed. No API key is exported
 in the editing session; fresh live verification of this change remains pending.
+
+
+### Live draft failure diagnostics
+
+The owner supplied a README generation failure and six passing changelog checks.
+The old harness hid the failure reason. Added workflow labels, safe runtime messages,
+model stop reasons, sanitized API failure categories, and bounded runtime trace output.
+All 28 offline tests, typecheck, build, and diff checks pass. No production limits were
+changed without evidence. The original failure needs a credentialed rerun to diagnose.

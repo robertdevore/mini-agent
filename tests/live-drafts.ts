@@ -1,4 +1,5 @@
 import { runAgent, DEFAULT_MODEL } from "../src/agent.js";
+import { diagnosticModel, draftFailure } from "./draft-diagnostics.js";
 import { claude } from "../src/claude.js";
 import { history } from "../src/repository.js";
 import { changelogClaims, readmeClaims } from "./draft-claims.js";
@@ -15,8 +16,12 @@ if (!process.env.ANTHROPIC_API_KEY) {
     "Generate release notes from recent commits. Our source repository is https://github.com/robertdevore/mini-agent. Cite the commit hash for each change.",
   ];
   for (const [index, prompt] of prompts.entries()) {
+    const label = index === 0 ? "README" : "Changelog";
+    const events: string[] = [];
+    const trace: string[] = [];
+    console.log(`\nStarting ${label} draft`);
     try {
-      const result = await runAgent({ root: process.cwd(), prompt, model, modelId: process.env.ANTHROPIC_MODEL });
+      const result = await runAgent({ root: process.cwd(), prompt, model: diagnosticModel(model, events), trace: event => trace.push(event), modelId: process.env.ANTHROPIC_MODEL });
       const checks: Record<string, boolean> = {
         "expected skill activated": result.activated.includes(index === 0 ? "documentation-readme" : "wiki-changelog"),
         "known repository URL present": result.answer.includes("https://github.com/robertdevore/mini-agent"),
@@ -39,8 +44,11 @@ if (!process.env.ANTHROPIC_API_KEY) {
         if (!pass) process.exitCode = 1;
       }
       console.log("MANUAL REVIEW REQUIRED: verify factual claims, completeness, commit citations and skill workflow fidelity. These checks are narrow heuristics, not a quality guarantee.");
-    } catch {
-      console.error("FAIL: draft generation failed (API, runtime, or response validation).");
+    } catch (error) {
+      console.error(`FAIL: ${label} draft: ${draftFailure(error)}`);
+      for (const event of events) console.error(event);
+      // Runtime trace contains fixed events and validated skill names, never raw model text.
+      for (const event of trace.slice(-12)) console.error(`TRACE ${event}`);
       process.exitCode = 1;
     }
   }

@@ -2,7 +2,9 @@
 
 ## Current Status
 The README generator now addresses the remaining defects from the third owner-supplied
-sample. All 26 offline tests, typecheck, and build pass. Fresh live verification is pending.
+sample. The latest live README generation failed without a recorded cause. The harness now
+reports sanitized failure details. All 28 offline tests, typecheck, and build pass.
+Fresh live diagnosis is pending.
 
 ## Completed Phases
 Foundation, runtime, three skills, trace and adversarial tests, live routing,
