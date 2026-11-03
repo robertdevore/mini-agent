@@ -1,8 +1,8 @@
 # Evaluation
 
 Current status: the latest owner-supplied run failed to generate a README; its
-changelog passed six checks. The cause was hidden by the harness. Diagnostic coverage
-now passes locally with 28 offline tests, typecheck, and build; live diagnosis is pending.
+changelog passed six checks. The cause was hidden by the harness. After the bounded discovery and private Git helper changes,
+30 offline tests, typecheck, and build pass; live diagnosis is pending.
 
 ## Owner-reported verification — November 3, 2026
 
@@ -224,3 +224,21 @@ behavior are unchanged; the failure evidence does not justify changing them yet.
 Next: run npm run test:live:drafts in a credentialed shell. Inspect the detailed error
 if it fails, or the complete drafts if it succeeds. The editing session still lacks an
 exported API key; the original README failure remains undiagnosed.
+
+
+## Source review follow-up — November 3, 2026
+
+Replaced one-byte discovery reads with a bounded 16 KiB buffer, retaining UTF-8 and
+CRLF output, exact delimiter rules, and the existing byte limit. Tests cover a closing
+newline exactly at the limit, an oversized header, missing or malformed delimiters,
+invalid YAML, and exclusion of body text from returned metadata. Existing captured
+model-request tests still confirm that unrelated skill bodies stay out of context.
+
+Made the arbitrary-argument Git helper private and moved fixture-only Git execution
+to tests. An export-surface test checks that only the four fixed repository operations
+are public. Existing real-history and repository integration tests pass.
+
+Validation: all 30 offline tests, typecheck, build, and diff checks passed. These
+changes do not diagnose the earlier live README failure; the owner will rerun the
+live draft suite with the new diagnostics. Submission-facing README cleanup preserves
+the process history in ENGINEERING-NOTES.md and the existing development artifacts.

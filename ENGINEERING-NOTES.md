@@ -156,3 +156,48 @@ The old harness hid the failure reason. Added workflow labels, safe runtime mess
 model stop reasons, sanitized API failure categories, and bounded runtime trace output.
 All 28 offline tests, typecheck, build, and diff checks pass. No production limits were
 changed without evidence. The original failure needs a credentialed rerun to diagnose.
+
+
+## Anthropic API setup
+
+
+1. Sign in to the [Claude Console](https://platform.claude.com/).
+2. Open [API keys](https://platform.claude.com/settings/keys), choose **Create key**,
+   and name it `mini-agent`. For local development, link it to yourself and select
+   a workspace. This CLI does not set a workspace header for an unscoped key.
+3. Copy the key when it appears and store it securely; the Console shows it once.
+4. Check [Billing](https://platform.claude.com/settings/billing) for available API
+   credits. Buy credits if needed, or claim credits from an eligible Claude plan.
+
+See Anthropic’s [key setup guide](https://platform.claude.com/docs/en/get-api-key)
+and [billing guide](https://support.claude.com/en/articles/8977456-how-do-i-pay-for-my-claude-api-usage).
+Eligible Max, Ultra, and Team subscribers can
+[link a Console organization to claim API credits](https://platform.claude.com/docs/en/about-claude/api-credits-for-subscribers).
+These instructions were checked on November 3, 2026.
+
+Export the key as shown in **Run**, then try an onboarding prompt. The CLI already
+selects Sonnet through its model setting; you do not need a separate Sonnet key.
+Run `npm run test:live` to check routing with your account. Keep the key out of
+Git and chat messages.
+
+
+## Development records
+
+The maintained README is the entry point for running and understanding the CLI.
+REVIEW.md contains the skeptical review; EVALUATION.md contains verification evidence.
+PackWrite files in planning/ and agent/, Loop artifacts in .loop-engineering/, and
+MEGA_PROMPT.md remain historical development records. The original prompt is not a
+primary deliverable or a substitute for implementation evidence.
+
+## Bounded discovery and private Git helper
+
+Discovery now reads a buffer of at most 16 KiB, then locates complete delimiter lines
+in bytes before decoding metadata as UTF-8. Short reads are handled within the same
+bound. LF and CRLF are supported; closing delimiters still require a newline within
+the limit. A body suffix can enter the temporary buffer but is neither returned nor
+retained in the catalog or model request. This replaces the former one-byte reads.
+
+The arbitrary-argument Git helper is now module-private. The repository module exports
+only history, remote, listRepository, and readRepository. Tests use a separate helper
+for fixture creation and independent Git assertions. This narrows the maintenance
+surface without changing model-facing capabilities or claiming process isolation.

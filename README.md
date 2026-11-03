@@ -6,7 +6,7 @@ only when Claude activates it. Built for the Command Code engineering assignment
 
 ## Run
 
-Requires Node.js 22+ and Git. No global installs or API key are needed for tests
+Requires Node.js 22+ and Git. No global installs or API key are needed for offline tests
 or skill listing. From this checkout:
 
 ```bash
@@ -45,31 +45,15 @@ or use Node's explicit `--env-file=.env` when running the compiled CLI. Requests
 have a 60-second timeout and one SDK retry; output is limited to 4096 tokens per turn.
 The agent reports an error if a response is cut short or the step limit is reached.
 
-## Get an Anthropic API key
-
-1. Sign in to the [Claude Console](https://platform.claude.com/).
-2. Open [API keys](https://platform.claude.com/settings/keys), choose **Create key**,
-   and name it `mini-agent`. For local development, link it to yourself and select
-   a workspace. This CLI does not set a workspace header for an unscoped key.
-3. Copy the key when it appears and store it securely; the Console shows it once.
-4. Check [Billing](https://platform.claude.com/settings/billing) for available API
-   credits. Buy credits if needed, or claim credits from an eligible Claude plan.
-
-See Anthropic’s [key setup guide](https://platform.claude.com/docs/en/get-api-key)
-and [billing guide](https://support.claude.com/en/articles/8977456-how-do-i-pay-for-my-claude-api-usage).
-Eligible Max, Ultra, and Team subscribers can
-[link a Console organization to claim API credits](https://platform.claude.com/docs/en/about-claude/api-credits-for-subscribers).
-These instructions were checked on November 3, 2026.
-
-Export the key as shown in **Run**, then try an onboarding prompt. The CLI already
-selects Sonnet through its model setting; you do not need a separate Sonnet key.
-Run `npm run test:live` to check routing with your account. Keep the key out of
-Git and chat messages.
+Create a key in the [Claude Console](https://platform.claude.com/settings/keys)
+and ensure your account has API credits. See [API setup details](ENGINEERING-NOTES.md#anthropic-api-setup)
+for the setup walkthrough.
 
 ## Skills and disclosure
 
-- `welcome-me`: onboarding based on repository files; exact first line must be
-  `> Welcome to our agent!`. The runtime rejects an answer that fails this check; it does not repair the header.
+- `welcome-me`: onboarding based on repository files. When this skill is activated,
+  the answer must start with `> Welcome to our agent!`. The runtime rejects a missing
+  or incorrect header; it does not repair it.
 - `wiki-changelog`: Microsoft's original skill, backed by the latest 20 real
   commits and a sanitized origin URL. It asks you to confirm the repository source.
   Supply your repository URL or say it is local-only in the prompt.
@@ -84,8 +68,9 @@ and `--trace` reports the duplicate. The agent validates every discovered skill,
 including duplicates, and stops on malformed metadata. It skips symlinked skill
 directories and does not search your home directory.
 
-Discovery reads only YAML frontmatter (up to 16 KiB). Only names and descriptions
-enter the first model request. `activate_skill` reads the selected full file;
+Discovery reads a prefix of at most 16 KiB and extracts only YAML frontmatter.
+Any buffered body bytes are discarded; only names and descriptions enter the first
+model request. `activate_skill` reads the selected full file;
 `read_skill_resource` reads individual files only inside an activated skill.
 Each file is limited to 64 KiB. The agent reads resources one at a time.
 
@@ -124,23 +109,16 @@ npm run test:live  # optional; incurs API usage when a key is exported
 ```
 
 Offline tests inject scripted model responses and inspect actual request contexts.
-They check the runtime’s behavior. They do not measure live routing accuracy. See [EVALUATION.md](EVALUATION.md)
-for test results, [SPEC-COMPLIANCE.md](SPEC-COMPLIANCE.md) for the contract,
-[REVIEW.md](REVIEW.md) for the separate skeptical review, and
-[ENGINEERING-NOTES.md](ENGINEERING-NOTES.md) for time, challenges, and Git evidence.
+They verify runtime behavior, not live routing accuracy.
+
+`npm run test:live:drafts` generates a README and changelog using paid API requests.
+It checks selected facts and known defects, and prints diagnostics on failure.
+Review the generated text even when all checks pass.
+
+See [EVALUATION.md](EVALUATION.md) for results and open verification items,
+[SPEC-COMPLIANCE.md](SPEC-COMPLIANCE.md) for supported behavior, and
+[ENGINEERING-NOTES.md](ENGINEERING-NOTES.md) for time spent, challenges, and process records.
 
 Runtime dependencies: official `@anthropic-ai/sdk` and `yaml`; development uses
 TypeScript, `tsx`, and Node types. MIT license; upstream skill notices remain
 bundled. Maintainer: [Robert DeVore](https://github.com/robertdevore).
-
-### Review generated drafts
-
-`npm run test:live:drafts` runs two paid draft workflows (each may make several model
-requests), prints a README and changelog, and checks selected project facts and output
-formatting, offline/live test distinctions, activation-scoped header requirements, and
-unwanted inspection or editing commentary. Review the drafts even when the checks pass. See EVALUATION.md for the
-owner-supplied failures that prompted these checks and the current verification status.
-
-The `git_history` result includes `returnedCommitCount`, the selected `commitHashes`,
-a limit of 20, and the corresponding log. The count covers the returned selection.
-The tool does not inspect diffs, tags, or the repository's default branch.

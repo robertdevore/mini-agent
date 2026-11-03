@@ -3,7 +3,8 @@
 ## Current Status
 The README generator now addresses the remaining defects from the third owner-supplied
 sample. The latest live README generation failed without a recorded cause. The harness now
-reports sanitized failure details. All 28 offline tests, typecheck, and build pass.
+reports sanitized failure details. Discovery uses a bounded prefix buffer and the Git executor is private. All 30
+offline tests, typecheck, and build pass.
 Fresh live diagnosis is pending.
 
 ## Completed Phases
