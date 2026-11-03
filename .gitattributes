@@ -1,0 +1,3 @@
+*.patch -whitespace
+.agents/skills/wiki-changelog/** -whitespace
+.agents/skills/documentation-readme/** -whitespace

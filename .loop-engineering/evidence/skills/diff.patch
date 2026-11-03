@@ -1,0 +1,83 @@
+diff --git a/.gitignore b/.gitignore
+index d8421de..53647df 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -5,3 +5,5 @@ dist/
+ !.env.example
+ *.log
+ .DS_Store
++
++!.loop-engineering/**/*.log
+diff --git a/.loop-engineering/SUMMARY.md b/.loop-engineering/SUMMARY.md
+index 8ec2f96..c069346 100644
+--- a/.loop-engineering/SUMMARY.md
++++ b/.loop-engineering/SUMMARY.md
+@@ -2,17 +2,17 @@
+ 
+ ## Verdict
+ 
+-success
++failed
+ 
+ ## Completed
+ 
+-- configured loop run completed through iteration 1
++- configured loop run completed through iteration 2
+ 
+ ## Verification
+ 
+-- passed: tests, typecheck, build, diff
++- passed: tests, typecheck, build
+ - blocked: none
+-- failed: none
++- failed: diff
+ 
+ ## Commits
+ 
+@@ -28,4 +28,4 @@ success
+ 
+ ## Next Start
+ 
+-- success: required gates passed
++- required gate failed
+diff --git a/.loop-engineering/iterations/001/context.md b/.loop-engineering/iterations/001/context.md
+index 23760b3..8413950 100644
+--- a/.loop-engineering/iterations/001/context.md
++++ b/.loop-engineering/iterations/001/context.md
+@@ -1,6 +1,11 @@
+ # Context
+ 
+ - objective: Verify mini-agent milestones
+-- git_head: 5bc02b5
++- git_head: a718866
+ - changed_files:
+-  - none
++  - .gitignore
++  - .loop-engineering/SUMMARY.md
++  - .loop-engineering/iterations/001/context.md
++  - .loop-engineering/iterations/001/diff.patch
++  - .loop-engineering/iterations/001/verdict.yml
++  - .loop-engineering/ledger.tsv
+diff --git a/.loop-engineering/iterations/001/verdict.yml b/.loop-engineering/iterations/001/verdict.yml
+index ebbbe06..5eace62 100644
+--- a/.loop-engineering/iterations/001/verdict.yml
++++ b/.loop-engineering/iterations/001/verdict.yml
+@@ -1,6 +1,6 @@
+ iteration: 1
+-verdict: success
+-progress: 1
+-required_failures: 0
++verdict: failed
++progress: 0
++required_failures: 1
+ external_blockers: 0
+-stop_reason: "success: required gates passed"
++stop_reason: "required gate failed"
+diff --git a/.loop-engineering/ledger.tsv b/.loop-engineering/ledger.tsv
+index a287f34..882f38f 100644
+--- a/.loop-engineering/ledger.tsv
++++ b/.loop-engineering/ledger.tsv
+@@ -1,2 +1,3 @@
+ iteration	action	verdict	progress	evidence	justification
+ 001	configured-gates	success	1	iterations/001/eval.log	success: required gates passed
++001	configured-gates	failed	0	iterations/001/eval.log	required gate failed

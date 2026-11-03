@@ -1,0 +1,22 @@
+npm warn Unknown user config "python". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> command-code-mini-agent@0.1.0 test
+> tsx --test tests/*.test.ts
+
+✔ activation enters the next model context, unrelated bodies stay excluded (179.104196ms)
+✔ no activation means zero instruction bodies in every request (37.396ms)
+✔ unknown skills and invalid tool arguments become error results (26.080703ms)
+✔ API failures and incomplete responses cannot fabricate success (50.797847ms)
+✔ exact welcome header fails closed (48.988405ms)
+✔ bounded execution rejects endless tools (42.211433ms)
+✔ metadata requirements and optional field constraints (57.094004ms)
+✔ malformed YAML and duplicate keys fail (13.402803ms)
+✔ discovery precedence, lazy resources, frontmatter-only and root search (36.681635ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 866.552005
