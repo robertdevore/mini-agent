@@ -9,6 +9,7 @@ endorsement or a claim that another model reviewed it.
 | Medium | Initial tests simulated routing without a shared live matrix | Eight identical scenarios now drive separate scripted and optional live evaluations; no live accuracy claim |
 | Medium | Two reads at activation could validate metadata from a different file version | Parse metadata from the same bounded text returned to Claude |
 | Medium | Missing resource result was too generic | ENOENT now reports Resource not found without echoing paths or arguments |
+| Low | YAML numeric metadata keys could stringify during parsing | Validate YAML key nodes as strings, with a negative test |
 | Low | Unicode name validation excluded some uncased letter/number classes | Unicode letters/numbers, lowercase check and normalized directory comparison; limits retained |
 | Low | Loop diff evidence itself triggered whitespace gate | Patch artifacts marked -whitespace; application files retain diff checks |
 | Low | CLI stream and offline behavior needed process-level verification | Subprocess test covers help/list, errors, credentials and exit codes |

@@ -62,3 +62,14 @@ validator setup, and tests overlapping some editing. No substantial intentional
 pause occurred. Wait time was not separately instrumented and cannot truthfully be
 subtracted to claim an exact active-work duration. Final commit interval is recorded
 below after verification, without rewriting commit dates.
+
+## Clean clone
+
+A fresh HTTPS clone at commit 397b13087f42871e031f09a732d6541b1df9b038
+passed `npm ci`, all 21 tests, typecheck and build on Node 26.12.1 / npm 11.20.0.
+The first install invocation using npm's `--prefix` unexpectedly reported a missing
+self-package; running the documented `npm ci` from inside the clean checkout passed
+without changing the lockfile. The checkout stayed clean. No Node 22 execution was
+performed; >=22 is the supported API baseline, not a tested version matrix.
+Formatting was subsequently normalized with ephemeral Prettier (no new dependency),
+and the final formatted revision is verified again before delivery.

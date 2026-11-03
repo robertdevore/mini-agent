@@ -6,27 +6,27 @@ npm warn Unknown user config "python". This will stop working in the next major 
 > command-code-mini-agent@0.1.0 test
 > tsx --test tests/*.test.ts
 
-✔ symlink escapes and traversal rejected; in-root resource works (90.925402ms)
-✔ missing resources and bounded regular file reads fail clearly (8.212709ms)
-✔ invalid skills fail discovery and metadata changes invalidate activation (101.575913ms)
-✔ frontmatter handles CRLF and UTF-8 without accepting missing delimiters (12.164713ms)
-✔ resource before activation, arbitrary tools, extra args are rejected (847.108117ms)
-✔ activated resource is loaded lazily and traced from real read (78.765442ms)
-✔ empty final, empty tool batch and invalid step limit fail (248.506847ms)
-✔ activation enters the next model context, unrelated bodies stay excluded (274.320253ms)
-✔ no activation means zero instruction bodies in every request (37.572787ms)
-✔ unknown skills and invalid tool arguments become error results (30.672424ms)
-✔ API failures and incomplete responses cannot fabricate success (215.1004ms)
-✔ exact welcome header fails closed (38.431678ms)
-✔ bounded execution rejects endless tools (159.253642ms)
-✔ CLI help/list are offline, usage and missing credentials have stable exit codes (11095.91145ms)
-✔ bundled skills have genuine instructions, resources and repository evidence (578.390068ms)
-✔ real changelog tools deliver real commit evidence to model (229.32382ms)
-✔ documentation workflow receives actual project file data (165.656575ms)
-✔ acceptance prompt matrix preserves context boundaries under scripted selections (1378.137606ms)
-✔ metadata requirements and optional field constraints (142.229698ms)
-✔ malformed YAML and duplicate keys fail (2.60076ms)
-✔ discovery precedence, lazy resources, frontmatter-only and root search (88.444298ms)
+✔ symlink escapes and traversal rejected; in-root resource works (38.202104ms)
+✔ missing resources and bounded regular file reads fail clearly (4.76513ms)
+✔ invalid skills fail discovery and metadata changes invalidate activation (25.841023ms)
+✔ frontmatter handles CRLF and UTF-8 without accepting missing delimiters (5.374985ms)
+✔ resource before activation, arbitrary tools, extra args are rejected (297.338558ms)
+✔ activated resource is loaded lazily and traced from real read (61.193057ms)
+✔ empty final, empty tool batch and invalid step limit fail (72.402917ms)
+✔ activation enters the next model context, unrelated bodies stay excluded (75.588253ms)
+✔ no activation means zero instruction bodies in every request (18.982477ms)
+✔ unknown skills and invalid tool arguments become error results (19.391073ms)
+✔ API failures and incomplete responses cannot fabricate success (117.90131ms)
+✔ exact welcome header fails closed (45.898286ms)
+✔ bounded execution rejects endless tools (31.830906ms)
+✔ CLI help/list are offline, usage and missing credentials have stable exit codes (3169.163ms)
+✔ bundled skills have genuine instructions, resources and repository evidence (307.295712ms)
+✔ real changelog tools deliver real commit evidence to model (105.515482ms)
+✔ documentation workflow receives actual project file data (76.310282ms)
+✔ acceptance prompt matrix preserves context boundaries under scripted selections (518.263521ms)
+✔ metadata requirements and optional field constraints (35.251583ms)
+✔ malformed YAML and duplicate keys fail (2.031928ms)
+✔ discovery precedence, lazy resources, frontmatter-only and root search (35.471295ms)
 ℹ tests 21
 ℹ suites 0
 ℹ pass 21
@@ -34,7 +34,7 @@ npm warn Unknown user config "python". This will stop working in the next major 
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 11755.513805
+ℹ duration_ms 3632.792976
 gate tests: pass
 
 ## gate: typecheck
