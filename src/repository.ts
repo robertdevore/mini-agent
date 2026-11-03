@@ -47,13 +47,23 @@ export async function readRepository(
   return readBounded(resolved);
 }
 export async function history(root: string): Promise<string> {
-  return git(root, [
-    "log",
-    "-20",
-    "--format=%H %aI %an%n%s%n%b",
-    "--name-status",
-    "--no-renames",
+  // Select hashes once so the count and log refer to the same snapshot.
+  const hashes = (await git(root, ["rev-list", "--max-count=20", "HEAD"]))
+    .trim().split("\n");
+  if (!hashes.length || hashes.some(hash => !/^(?:[a-f0-9]{40}|[a-f0-9]{64})$/.test(hash))) {
+    throw new Error("Git returned invalid commit identifiers");
+  }
+  const log = await git(root, [
+    "log", "--no-walk=unsorted", "--format=%H %aI %an%n%s%n%b",
+    "--name-status", "--no-renames", ...hashes, "--",
   ]);
+  return JSON.stringify({
+    returnedCommitCount: hashes.length,
+    limit: 20,
+    commitHashes: hashes,
+    evidence: "Commit messages, author timestamps with offsets, and changed-file lists only. No diffs, tag inventory, or default-branch lookup. Count describes this selection, not a repository-wide inventory.",
+    log,
+  });
 }
 export async function remote(root: string): Promise<string> {
   let value: string;

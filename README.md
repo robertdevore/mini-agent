@@ -139,3 +139,7 @@ bundled. Maintainer: [Robert DeVore](https://github.com/robertdevore).
 requests), prints a README and changelog, and checks selected project facts and output
 formatting. Review the drafts even when the checks pass. See EVALUATION.md for the
 owner-supplied failures that prompted these checks and the current verification status.
+
+The `git_history` result includes `returnedCommitCount`, the selected `commitHashes`,
+a limit of 20, and the corresponding log. The count covers the returned selection.
+The tool does not inspect diffs, tags, or the repository's default branch.

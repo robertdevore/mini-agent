@@ -105,3 +105,39 @@ the drafts and checks a few repository-specific facts, language drift, and place
 Its checks are heuristics; inspect the drafts and citations even if they pass.
 The editing agent had no exported API key and has not live-verified this correction.
 The earlier eight-pass result applies to the previous prompt, not this revision.
+
+## Second owner-supplied draft run — November 3, 2026
+
+The owner reported another eight routing passes and all eleven draft heuristics
+passing on claude-sonnet-5-5 after the authorship correction. The new README uses
+Robert DeVore, the real repository URL, and English throughout. These observed
+corrections do not make the heuristic checks a complete quality assessment.
+
+Manual review still found errors:
+
+- The changelog says 17 commits. There are 14 commits through its newest citation,
+  723e051, and its entries cite those 14.
+- It puts ec65208 under November 3 despite its November 2 23:54:26 −05:00 timestamp.
+- It says there are no tags or version numbers without tag evidence; package.json
+  does declare version 0.1.0. No tag inventory was available to the model.
+- It describes a prompt instruction to use project facts as guaranteed behavior
+  and labels 2e535a8 “evidence-only” despite that commit's source-formatting changes.
+- The README's “tests need no key” should say offline tests. Large files are rejected,
+  not partly returned; hidden-path exclusions apply to repository tools, not skill
+  activation/resource reads. Truncation means the model hit its output budget, not
+  that the API returned more than 4096 tokens. Remove first-person review commentary
+  before using this as permanent project documentation.
+
+The history tool now returns JSON with an exact returnedCommitCount, a limit of 20,
+selected commitHashes, and the corresponding log from the same selected hashes.
+Its evidence label states that diffs, tags, and the default branch were not queried.
+System guidance uses that count, preserves supplied date offsets, avoids unsupported
+tag claims, and uses commit-pinned file citations instead of guessing a branch.
+A temporary-repository test checks both a one-commit history and a 21-commit history
+capped at 20. These runtime changes still need a live rerun; the second owner run
+predates them.
+
+Local verification of the history change passed all 23 offline tests, typecheck,
+build, and diff checks. The draft suite now also checks recognized English commit-count
+claims and verifies cited commit hashes against returned history. These are still
+heuristics: unrecognized wording, incorrect dates, and unsupported prose need review.

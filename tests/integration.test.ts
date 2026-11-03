@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { runAgent, type Model } from "../src/agent.js";
 import { discover } from "../src/skills.js";
 import {
+  git,
   history,
   listRepository,
   readRepository,
@@ -22,7 +23,8 @@ test("bundled skills have genuine instructions, resources and repository evidenc
   const catalog = await discover(process.cwd());
   assert.equal(catalog.size, 3);
   assert.ok((await listRepository(process.cwd())).includes("src/agent.ts"));
-  assert.match(await history(process.cwd()), /initialize Command Code/);
+  const head = (await git(process.cwd(), ["rev-parse", "HEAD"])).trim();
+  assert.equal(JSON.parse(await history(process.cwd())).commitHashes[0], head);
   assert.equal(
     await remote(process.cwd()),
     "https://github.com/robertdevore/mini-agent",
@@ -53,10 +55,10 @@ test("real changelog tools deliver real commit evidence to model", async () => {
         );
         return call("git_history", {});
       }
-      assert.match(
-        JSON.stringify(r.messages.at(-1)),
-        /initialize Command Code/,
-      );
+      const results = r.messages.at(-1)!.content as {content: string}[];
+      const data = JSON.parse(results[0]!.content);
+      assert.equal(data.commitHashes[0], (await git(process.cwd(), ["rev-parse", "HEAD"])).trim());
+      assert.ok(data.log.includes(data.commitHashes[0]));
       return end("Draft based on returned commits.");
     },
   });
