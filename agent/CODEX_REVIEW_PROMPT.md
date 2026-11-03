@@ -1,2 +1,2 @@
 # Independent review
-Skeptically inspect runtime boundaries, specification compliance, actual request context tests, external skill fidelity, and evidence claims. Fix substantive issues and record severity.
+Review runtime boundaries, specification compliance, tests of model request context, fidelity to upstream skills, and the evidence behind claims. Fix substantive issues and record their severity.

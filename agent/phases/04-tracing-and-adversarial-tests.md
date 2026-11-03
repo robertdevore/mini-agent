@@ -1,7 +1,7 @@
 # tracing-and-adversarial-tests
 
 ## Goal
-Deliver verified milestone.
+Complete and verify this milestone.
 
 ## Out of scope
 Unrelated changes.
@@ -19,8 +19,8 @@ Record evidence.
 Complete tracing-and-adversarial-tests against MASTER.md.
 
 ## Acceptance criteria
-- [ ] Applicable requirements have behavioral verification; no unverified claims.
+- [ ] Verify each applicable requirement with a behavioral check; make no unverified claims.
 
 ## Suggested checks
-Run applicable npm tests, typecheck and build through Loop.
+Run the relevant npm tests, typecheck, and build through Loop.
 

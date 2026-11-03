@@ -10,9 +10,9 @@ The first line of your final answer must be exactly:
 > Welcome to our agent!
 
 Use list_repository, then read_repository to inspect README.md, package.json,
-and the relevant src files. Explain what this actual project does, its important
-components, configuration and CLI invocation, and practical next steps.
+and the relevant src files. Explain what the project does, its main
+components, how to configure and run the CLI, and practical next steps.
 Read references/first-steps.md with read_skill_resource when suggesting a path.
-Keep the response concise and grounded in files you actually read. Cite their paths.
+Keep the response concise. Base it on files you read and cite their paths.
 If files are unavailable, say so; never invent repository contents or claim to have
 run commands. Do not execute setup commands or write files.

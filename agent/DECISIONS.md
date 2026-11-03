@@ -1,6 +1,6 @@
 # Decisions
 ## Confirmed
-Read-only output drafts. Proper YAML parsing. No routing shortcuts. External skill substitution documented in MASTER.
+Print drafts without writing files. Use a YAML parser. Let the model select skills. MASTER.md explains the external skill substitution.
 ## Open
 Live evaluation.
 ## Log

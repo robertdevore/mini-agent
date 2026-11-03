@@ -1,9 +1,57 @@
 # Mini Agent implementation contract
-Build a minimal TypeScript Node CLI with official Anthropic SDK and YAML parser.
-Assignment: three skills, model-selected activation, exact welcome header, no unrelated instructions in context; readable CLI, offline and optional live verification.
-Specification: validate name/description and optional license/compatibility/metadata/allowed-tools; SKILL.md directories; progressive disclosure. Scripts and automatic writes are optional and excluded.
-Choices: nearest ancestor with .git or package.json is root; .skills takes precedence over .agents/skills; reject malformed skills, diagnose shadowed duplicates; read frontmatter only at discovery; full instructions on tool activation, bounded skill-relative resources. Repository inspection only for activated skills and tracked non-secret files. No shell, installs, arbitrary network or writes.
-Architecture: skills.ts handles metadata/catalog/resources; repository.ts handles bounded read-only git and file operations; agent.ts handles official message blocks and tool results; cli.ts handles flags/exit codes. Model selects skills, never keyword rules. Trace records runtime events only on stderr. Strict welcome assertion fails rather than repairs output.
-External skills: preserve Microsoft wiki-changelog; provide git history and remote context, and honor its question when user has not confirmed source context. Replace UC Davis documentation-project (eleven files, writes, Mermaid rendering) with authentic documentation-readme from same published registry; emit README draft to stdout, do not claim filesystem writes. Preserve sources/licenses and upstream bytes.
-Verification: deterministic injected model tests inspect actual request contexts and tool-result ordering; live routing evaluated separately if ANTHROPIC_API_KEY exists. Official skills-ref validation, clean clone install/test/build; separate skeptical review. No live accuracy claims from stubs.
-Milestones: foundation; Claude runtime; three functional skills; tracing/adversarial tests; final docs/review. Each has tests and a real commit. Use Loop gates after each stage. Record timestamps honestly, no fabricated hands-on time.
+
+Build a small TypeScript Node.js CLI with the official Anthropic SDK and a YAML parser.
+
+## Assignment and specification
+
+Include three skills. Let the model select them, require the exact welcome header,
+and keep unrelated instructions out of context. Provide a clear CLI, offline tests,
+and optional live tests.
+
+Follow the Agent Skills directory format and progressive disclosure: metadata first,
+selected instructions next, resources as needed. Validate name and description, plus
+optional license, compatibility, metadata, and allowed-tools fields. Script execution
+and automatic file writes are optional features that this client excludes.
+
+## Runtime choices
+
+Find the root by walking up to the nearest directory with .git or package.json.
+Search .skills before .agents/skills. Reject malformed skills and report shadowed
+duplicates. Read only frontmatter during discovery, full instructions on activation,
+and individual resources through bounded skill-relative reads.
+
+Allow repository inspection only after skill activation, and only for tracked files
+that pass the sensitive-path exclusions. Provide no shell, dependency installation,
+arbitrary network access, or file writes.
+
+## Architecture
+
+- skills.ts handles metadata, the catalog, and resources.
+- repository.ts handles bounded read-only Git and file operations.
+- agent.ts handles API message blocks and tool results.
+- cli.ts handles flags and exit codes.
+
+The model selects skills; keyword rules do not. Trace real runtime events to stderr.
+Reject a welcome response with the wrong header rather than repairing it.
+
+## External skills
+
+Keep Microsoft's wiki-changelog unchanged. Provide Git history and remote context,
+and honor its question when the user has not confirmed the repository source.
+
+Replace UC Davis's documentation-project, which requires eleven files, writes, and
+Mermaid rendering, with documentation-readme from the same published registry.
+Print the README draft to stdout without claiming to write a file. Preserve upstream
+text, licenses, and source attribution.
+
+## Verification and delivery
+
+Use deterministic model responses to test actual request context and tool-result
+ordering. Evaluate live routing separately when ANTHROPIC_API_KEY is available.
+Run official skills-ref validation, install/test/build from a clean clone, and a
+separate skeptical review. Do not use scripted responses to claim live accuracy.
+
+Work through the foundation, Claude runtime, three working skills, tracing and
+adversarial tests, then final docs and review. Test and commit each milestone.
+Use Loop checks after each stage. Record real timestamps and distinguish elapsed
+session time from measured human hands-on time.
