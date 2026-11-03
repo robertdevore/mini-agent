@@ -1,18 +1,19 @@
 # Handoff
 
 ## Current Status
-Implementation complete; clean-clone verification passed.
+Implementation complete. Local verification at 149dcbd passed 23 offline tests,
+typecheck, and build. The owner's third draft run passed all 13 heuristics; manual
+review confirmed the earlier material errors were corrected in that sample.
 
 ## Completed Phases
-Foundation, runtime, three skills, trace and adversarial tests.
+Foundation, runtime, three skills, trace and adversarial tests, live routing,
+draft-quality review, and exact history-count correction.
 
 ## Known Issues
-The second owner run passed all eight routing scenarios and eleven draft heuristics.
-Authorship, language and URL errors were corrected in that sample. Manual review
-still found an inflated changelog count, a misgrouped date and unsupported claims.
-The history tool now supplies an exact count and selected hashes. This newer change
-has offline coverage but needs a live rerun.
+Generated drafts still need editorial review. The supplied README needs minor
+wording cleanup recorded in EVALUATION.md. No new runtime blocker was found.
+Live results are owner-reported and scoped to their runs, not a general guarantee.
 
 ## Next Agent Notes
-Read EVALUATION.md. Run npm run test:live:drafts in the owner's keyed terminal and
-review the drafts; heuristic passes alone do not establish factual completeness.
+Use the committed README and EVALUATION.md for submission. Do not replace maintained
+docs with unedited generated drafts or repeat paid runs solely for editorial polish.

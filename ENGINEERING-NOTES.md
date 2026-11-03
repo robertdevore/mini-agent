@@ -122,3 +122,18 @@ and eight live routing passes on claude-sonnet-5-5. EVALUATION.md records the ex
 prompts, observed activations, warnings, and limits. The output does not identify
 the tested commit or execution time. The editing agent did not repeat paid API
 calls. This later evidence does not alter the original delivery timeline.
+
+## Draft-review corrections and verification — November 3, 2026
+
+Commit 723e051 corrected system guidance for project facts, skill authorship,
+language, and placeholders, and added a live draft-review command. Its local
+verification passed 21 offline tests, typecheck, and build. The owner's next run
+passed eight routing scenarios and eleven draft heuristics, but manual review still
+found inaccurate changelog counts and unsupported claims.
+
+Commit 149dcbd added exact history counts and selected hashes, plus count/citation
+checks. Local verification passed 23 offline tests, typecheck, build, and diff
+checks. The owner then supplied a live draft run with all 13 heuristics passing;
+manual review confirmed the previously identified material errors were corrected
+in that sample. EVALUATION.md records the findings, remaining editorial cleanup,
+and limits. These later results do not alter the original delivery timeline.

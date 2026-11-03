@@ -1,5 +1,10 @@
 # Evaluation
 
+Current status: the third owner-supplied draft run passed all 13 heuristic checks.
+Manual review confirms the previously reported attribution, language, URL, count,
+date-grouping, and unsupported tag-claim errors are corrected in this sample.
+See the final section for evidence and minor wording edits.
+
 ## Owner-reported verification — November 3, 2026
 
 Robert DeVore supplied terminal output from a local run of the commands below.
@@ -141,3 +146,35 @@ Local verification of the history change passed all 23 offline tests, typecheck,
 build, and diff checks. The draft suite now also checks recognized English commit-count
 claims and verifies cited commit hashes against returned history. These are still
 heuristics: unrecognized wording, incorrect dates, and unsupported prose need review.
+
+## Third owner-supplied draft run — November 3, 2026
+
+The owner supplied a new npm run test:live:drafts result on claude-sonnet-5-5.
+All seven README and six changelog heuristic checks passed. The output references
+149dcbd as its newest commit; it does not independently record the tested checkout
+SHA or execution timestamp. This is owner-reported live evidence, not an API run
+repeated by the editing agent.
+
+Git inspection confirms 15 commits through 149dcbd. The draft reports 15, cites
+those commits, groups ec65208 under November 2 in its −05:00 author timezone,
+and avoids claiming there are no tags or versions. It distinguishes commit-message
+claims from recorded verification. The planning summary groups the three planning
+commits without assigning successful validation to the first one. The README uses
+Robert DeVore, English, the real repository URL, and the current history-tool fields.
+The earlier material errors are corrected in this sample.
+
+Before using the generated README as permanent documentation, make these small edits:
+
+- Say “offline tests and --list-skills” need no API key; live tests use one.
+- Explicitly scope the exact welcome-header assertion to activated welcome-me responses.
+- Remove the final first-person inspection note and the suggestion to add an email.
+  Repository tools exclude skill paths, but activation loads the selected skill;
+  that note should not imply skill instructions were unavailable.
+
+The changelog's caveat that ENGINEERING-NOTES.md lacked verification for the two
+latest fixes was accurate when generated: the 23-test evidence was in EVALUATION.md.
+The engineering notes now cross-reference that evidence. No runtime change or
+additional paid rerun is needed merely to record this sample and polish the draft.
+The existing committed README remains the maintained project documentation; the
+supplied draft has not replaced it. This is evidence for one run, not a promise of
+perfect output on all future prompts.
