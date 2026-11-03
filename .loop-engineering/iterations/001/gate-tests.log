@@ -3,23 +3,32 @@ npm warn Unknown user config "python". This will stop working in the next major 
 > command-code-mini-agent@0.1.0 test
 > tsx --test tests/*.test.ts
 
-✔ activation enters the next model context, unrelated bodies stay excluded (225.001415ms)
-✔ no activation means zero instruction bodies in every request (37.55799ms)
-✔ unknown skills and invalid tool arguments become error results (35.006337ms)
-✔ API failures and incomplete responses cannot fabricate success (124.330354ms)
-✔ exact welcome header fails closed (73.573985ms)
-✔ bounded execution rejects endless tools (120.440602ms)
-✔ bundled skills have genuine instructions, resources and repository evidence (500.272189ms)
-✔ real changelog tools deliver real commit evidence to model (158.248676ms)
-✔ documentation workflow receives actual project file data (143.955341ms)
-✔ metadata requirements and optional field constraints (57.778985ms)
-✔ malformed YAML and duplicate keys fail (2.235294ms)
-✔ discovery precedence, lazy resources, frontmatter-only and root search (45.64319ms)
-ℹ tests 12
+✔ symlink escapes and traversal rejected; in-root resource works (89.849058ms)
+✔ missing resources and bounded regular file reads fail clearly (7.739458ms)
+✔ invalid skills fail discovery and metadata changes invalidate activation (141.754101ms)
+✔ frontmatter handles CRLF and UTF-8 without accepting missing delimiters (13.505609ms)
+✔ resource before activation, arbitrary tools, extra args are rejected (880.257243ms)
+✔ activated resource is loaded lazily and traced from real read (215.345447ms)
+✔ empty final, empty tool batch and invalid step limit fail (265.170401ms)
+✔ activation enters the next model context, unrelated bodies stay excluded (289.23504ms)
+✔ no activation means zero instruction bodies in every request (152.631797ms)
+✔ unknown skills and invalid tool arguments become error results (52.11171ms)
+✔ API failures and incomplete responses cannot fabricate success (69.534932ms)
+✔ exact welcome header fails closed (198.757848ms)
+✔ bounded execution rejects endless tools (126.761171ms)
+✔ CLI help/list are offline, usage and missing credentials have stable exit codes (11980.686979ms)
+✔ bundled skills have genuine instructions, resources and repository evidence (642.56314ms)
+✔ real changelog tools deliver real commit evidence to model (242.196883ms)
+✔ documentation workflow receives actual project file data (210.908535ms)
+✔ acceptance prompt matrix preserves context boundaries under scripted selections (1648.455886ms)
+✔ metadata requirements and optional field constraints (133.215307ms)
+✔ malformed YAML and duplicate keys fail (13.432794ms)
+✔ discovery precedence, lazy resources, frontmatter-only and root search (137.533314ms)
+ℹ tests 21
 ℹ suites 0
-ℹ pass 12
+ℹ pass 21
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 1807.921246
+ℹ duration_ms 13265.86562

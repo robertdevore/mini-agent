@@ -1,0 +1,154 @@
+diff --git a/.loop-engineering/iterations/001/context.md b/.loop-engineering/iterations/001/context.md
+index 8413950..8907a4d 100644
+--- a/.loop-engineering/iterations/001/context.md
++++ b/.loop-engineering/iterations/001/context.md
+@@ -1,11 +1,7 @@
+ # Context
+ 
+ - objective: Verify mini-agent milestones
+-- git_head: a718866
++- git_head: 2d1cf3c
+ - changed_files:
+-  - .gitignore
+-  - .loop-engineering/SUMMARY.md
+-  - .loop-engineering/iterations/001/context.md
+-  - .loop-engineering/iterations/001/diff.patch
+-  - .loop-engineering/iterations/001/verdict.yml
+-  - .loop-engineering/ledger.tsv
++  - src/agent.ts
++  - src/skills.ts
+diff --git a/.loop-engineering/iterations/001/diff.patch b/.loop-engineering/iterations/001/diff.patch
+index 198d9cd..e69de29 100644
+--- a/.loop-engineering/iterations/001/diff.patch
++++ b/.loop-engineering/iterations/001/diff.patch
+@@ -1,83 +0,0 @@
+-diff --git a/.gitignore b/.gitignore
+-index d8421de..53647df 100644
+---- a/.gitignore
+-+++ b/.gitignore
+-@@ -5,3 +5,5 @@ dist/
+- !.env.example
+- *.log
+- .DS_Store
+-+
+-+!.loop-engineering/**/*.log
+-diff --git a/.loop-engineering/SUMMARY.md b/.loop-engineering/SUMMARY.md
+-index 8ec2f96..c069346 100644
+---- a/.loop-engineering/SUMMARY.md
+-+++ b/.loop-engineering/SUMMARY.md
+-@@ -2,17 +2,17 @@
+- 
+- ## Verdict
+- 
+--success
+-+failed
+- 
+- ## Completed
+- 
+--- configured loop run completed through iteration 1
+-+- configured loop run completed through iteration 2
+- 
+- ## Verification
+- 
+--- passed: tests, typecheck, build, diff
+-+- passed: tests, typecheck, build
+- - blocked: none
+--- failed: none
+-+- failed: diff
+- 
+- ## Commits
+- 
+-@@ -28,4 +28,4 @@ success
+- 
+- ## Next Start
+- 
+--- success: required gates passed
+-+- required gate failed
+-diff --git a/.loop-engineering/iterations/001/context.md b/.loop-engineering/iterations/001/context.md
+-index 23760b3..8413950 100644
+---- a/.loop-engineering/iterations/001/context.md
+-+++ b/.loop-engineering/iterations/001/context.md
+-@@ -1,6 +1,11 @@
+- # Context
+- 
+- - objective: Verify mini-agent milestones
+--- git_head: 5bc02b5
+-+- git_head: a718866
+- - changed_files:
+--  - none
+-+  - .gitignore
+-+  - .loop-engineering/SUMMARY.md
+-+  - .loop-engineering/iterations/001/context.md
+-+  - .loop-engineering/iterations/001/diff.patch
+-+  - .loop-engineering/iterations/001/verdict.yml
+-+  - .loop-engineering/ledger.tsv
+-diff --git a/.loop-engineering/iterations/001/verdict.yml b/.loop-engineering/iterations/001/verdict.yml
+-index ebbbe06..5eace62 100644
+---- a/.loop-engineering/iterations/001/verdict.yml
+-+++ b/.loop-engineering/iterations/001/verdict.yml
+-@@ -1,6 +1,6 @@
+- iteration: 1
+--verdict: success
+--progress: 1
+--required_failures: 0
+-+verdict: failed
+-+progress: 0
+-+required_failures: 1
+- external_blockers: 0
+--stop_reason: "success: required gates passed"
+-+stop_reason: "required gate failed"
+-diff --git a/.loop-engineering/ledger.tsv b/.loop-engineering/ledger.tsv
+-index a287f34..882f38f 100644
+---- a/.loop-engineering/ledger.tsv
+-+++ b/.loop-engineering/ledger.tsv
+-@@ -1,2 +1,3 @@
+- iteration	action	verdict	progress	evidence	justification
+- 001	configured-gates	success	1	iterations/001/eval.log	success: required gates passed
+-+001	configured-gates	failed	0	iterations/001/eval.log	required gate failed
+diff --git a/src/agent.ts b/src/agent.ts
+index cde1cd7..97ad86d 100644
+--- a/src/agent.ts
++++ b/src/agent.ts
+@@ -77,9 +77,10 @@ export async function runAgent(options: { root: string; prompt: string; model: M
+           }
+           trace(`READ ${call.name}`);
+         }
+-      } catch {
++      } catch (error) {
+         // Do not reflect untrusted arguments, filesystem paths or provider payloads.
+-        content = 'Tool rejected: invalid arguments, unavailable resource, or permission/size boundary. Use the documented tool schema and available paths.';
++        const code = (error as NodeJS.ErrnoException).code;
++        content = code === 'ENOENT' ? 'Resource not found. Check the relative path against the activated skill or repository listing.' : 'Tool rejected: invalid arguments, unknown/unactivated skill, or permission/size boundary. Use the documented tool schema and available paths.';
+         is_error = true; trace('ERROR tool rejected');
+       }
+       results.push({type:'tool_result',tool_use_id:call.id,content,is_error});
+diff --git a/src/skills.ts b/src/skills.ts
+index 6c5cd06..64ccca2 100644
+--- a/src/skills.ts
++++ b/src/skills.ts
+@@ -1,4 +1,4 @@
+-import { open, readdir, realpath, stat, access } from 'node:fs/promises';
++import { open, readdir, realpath, access } from 'node:fs/promises';
+ import path from 'node:path';
+ import { parseDocument } from 'yaml';
+ export type Skill = { name: string; description: string; directory: string; metadata: Record<string, unknown> };
+@@ -52,7 +52,7 @@ export function validate(yaml: string, directory: string): Record<string, unknow
+   const m = data as Record<string, unknown>;
+   const fields = new Set(['name','description','license','compatibility','metadata','allowed-tools']);
+   if (Object.keys(m).some(k => !fields.has(k))) throw new Error('Unknown metadata field');
+-  if (typeof m.name !== 'string' || [...m.name].length > 64 || !/^[\p{Ll}\p{Lo}\p{Nd}]+(?:-[\p{Ll}\p{Lo}\p{Nd}]+)*$/u.test(m.name) || m.name !== directory) throw new Error('Invalid skill name or directory mismatch');
++  if (typeof m.name !== 'string' || [...m.name].length > 64 || m.name !== m.name.toLowerCase() || !/^[\p{L}\p{N}]+(?:-[\p{L}\p{N}]+)*$/u.test(m.name) || m.name.normalize('NFKC') !== directory.normalize('NFKC')) throw new Error('Invalid skill name or directory mismatch');
+   if (typeof m.description !== 'string' || !m.description.trim() || [...m.description].length > 1024) throw new Error('Invalid description');
+   for (const key of ['license','compatibility','allowed-tools']) if (key in m && typeof m[key] !== 'string') throw new Error(`Invalid ${key}`);
+   if (typeof m.compatibility === 'string' && (!m.compatibility.trim() || [...m.compatibility].length > 500)) throw new Error('Invalid compatibility');
+@@ -86,7 +86,9 @@ export async function discover(root: string, trace: Trace = quiet): Promise<Map<
+ }
+ export async function activate(skill: Skill): Promise<string> {
+   const text = await readBounded(await safePath(skill.directory, 'SKILL.md'));
+-  const metadata = validate(await frontmatter(await safePath(skill.directory,'SKILL.md')), skill.name);
++  const header = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/.exec(text);
++  if (!header) throw new Error('Missing YAML frontmatter');
++  const metadata = validate(header[1]!, skill.name);
+   if (JSON.stringify(metadata) !== JSON.stringify(skill.metadata)) throw new Error('Skill metadata changed; restart discovery');
+   return text;
+ }

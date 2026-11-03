@@ -1,4 +1,4 @@
-import { open, readdir, realpath, stat, access } from 'node:fs/promises';
+import { open, readdir, realpath, access } from 'node:fs/promises';
 import path from 'node:path';
 import { parseDocument } from 'yaml';
 export type Skill = { name: string; description: string; directory: string; metadata: Record<string, unknown> };
@@ -52,7 +52,7 @@ export function validate(yaml: string, directory: string): Record<string, unknow
   const m = data as Record<string, unknown>;
   const fields = new Set(['name','description','license','compatibility','metadata','allowed-tools']);
   if (Object.keys(m).some(k => !fields.has(k))) throw new Error('Unknown metadata field');
-  if (typeof m.name !== 'string' || [...m.name].length > 64 || !/^[\p{Ll}\p{Lo}\p{Nd}]+(?:-[\p{Ll}\p{Lo}\p{Nd}]+)*$/u.test(m.name) || m.name !== directory) throw new Error('Invalid skill name or directory mismatch');
+  if (typeof m.name !== 'string' || [...m.name].length > 64 || m.name !== m.name.toLowerCase() || !/^[\p{L}\p{N}]+(?:-[\p{L}\p{N}]+)*$/u.test(m.name) || m.name.normalize('NFKC') !== directory.normalize('NFKC')) throw new Error('Invalid skill name or directory mismatch');
   if (typeof m.description !== 'string' || !m.description.trim() || [...m.description].length > 1024) throw new Error('Invalid description');
   for (const key of ['license','compatibility','allowed-tools']) if (key in m && typeof m[key] !== 'string') throw new Error(`Invalid ${key}`);
   if (typeof m.compatibility === 'string' && (!m.compatibility.trim() || [...m.compatibility].length > 500)) throw new Error('Invalid compatibility');
@@ -86,7 +86,9 @@ export async function discover(root: string, trace: Trace = quiet): Promise<Map<
 }
 export async function activate(skill: Skill): Promise<string> {
   const text = await readBounded(await safePath(skill.directory, 'SKILL.md'));
-  const metadata = validate(await frontmatter(await safePath(skill.directory,'SKILL.md')), skill.name);
+  const header = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/.exec(text);
+  if (!header) throw new Error('Missing YAML frontmatter');
+  const metadata = validate(header[1]!, skill.name);
   if (JSON.stringify(metadata) !== JSON.stringify(skill.metadata)) throw new Error('Skill metadata changed; restart discovery');
   return text;
 }

@@ -77,9 +77,10 @@ export async function runAgent(options: { root: string; prompt: string; model: M
           }
           trace(`READ ${call.name}`);
         }
-      } catch {
+      } catch (error) {
         // Do not reflect untrusted arguments, filesystem paths or provider payloads.
-        content = 'Tool rejected: invalid arguments, unavailable resource, or permission/size boundary. Use the documented tool schema and available paths.';
+        const code = (error as NodeJS.ErrnoException).code;
+        content = code === 'ENOENT' ? 'Resource not found. Check the relative path against the activated skill or repository listing.' : 'Tool rejected: invalid arguments, unknown/unactivated skill, or permission/size boundary. Use the documented tool schema and available paths.';
         is_error = true; trace('ERROR tool rejected');
       }
       results.push({type:'tool_result',tool_use_id:call.id,content,is_error});
